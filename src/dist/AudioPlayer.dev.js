@@ -50,9 +50,11 @@ function () {
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
         for (var i = 0; i < bufferLength; i++) {
-          var barHeight = dataArray[i] - 125;
-          var r = barHeight + 25 * (i / bufferLength);
-          ctx.fillStyle = "rgb(".concat(r, ", 100, 50");
+          var barHeight = dataArray[i] - 130;
+          var r = barHeight + 55 * (i / bufferLength); // ctx.fillStyle = `rgb(${r}, 100, 50`;
+
+          ctx.fillStyle = "rgb(189, 65, 65"; // ctx.fillStyle = 'rgb(12,115,4)'
+
           ctx.fillRect(bar, canvas.height - barHeight, barWidth, barHeight);
           bar += barWidth + 2;
         }
@@ -80,22 +82,35 @@ function () {
       this.audio.forEach(function (audio) {
         var audioItem = document.createElement('a');
         var audioArtist = document.createElement('a');
+        var audioDiv = document.createElement('div');
+        var nowPlayin = document.createElement('div');
+        audioDiv.classList.add("track-information");
+        nowPlayin.classList.add("now-playin");
+
+        if (_this.currentAudio !== null) {
+          // console.log("test true")
+          nowPlayin.innerHTML = "Now Playing: ".concat(_this.currentAudio.name, " - ").concat(_this.currentAudio.artist);
+        } // nowPlayin.innerHTML = `Now Playing: ${audio.name} - ${audio.artist}`
+
+
+        audioDiv.appendChild(audioItem);
+        audioDiv.appendChild(audioArtist);
         audioItem.href = audio.url;
         audioItem.innerHTML = "<i class= \"fa fa-play\"></i> ".concat(audio.name);
         audioArtist.innerHTML = "".concat(audio.artist);
 
-        _this.setupEventListener(audioItem);
+        _this.setupEventListener(audioDiv, audioItem);
 
-        playListElem.appendChild(audioItem);
-        playListElem.appendChild(audioArtist);
+        playListElem.appendChild(audioDiv);
+        playListElem.appendChild(nowPlayin);
       });
     }
   }, {
     key: "setupEventListener",
-    value: function setupEventListener(audioItem) {
+    value: function setupEventListener(audioDiv, audioItem) {
       var _this2 = this;
 
-      audioItem.addEventListener('click', function (e) {
+      audioDiv.addEventListener('click', function (e) {
         e.preventDefault();
 
         if (!_this2.audioContext) {
@@ -126,6 +141,15 @@ function () {
           _this2.audioElem.play();
         }
       });
+    }
+  }, {
+    key: "createSlider",
+    value: function createSlider(r) {
+      var slider = document.createElement("input");
+      slider.setAttribute("type", "range");
+      slider.setAttribute("min", "0");
+      slider.setAttribute("max", "100");
+      slider.setAttribute("value", "0");
     }
   }, {
     key: "setPlayIcon",

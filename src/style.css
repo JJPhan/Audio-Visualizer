@@ -7,13 +7,13 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid pink;
 }
 
 .audioPlayer {
     box-shadow: 0 0 32px 4px rgba(0,0,0,0.2);
     width: 600px;
     display: flex;
+    flex-direction: column;
     border: 1px solid rgb(96, 138, 96);
 }
 
@@ -26,8 +26,8 @@ canvas {
 .playlist {
     display: flex;
     flex-direction: column;
-    /* width: 100%; */
-    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(12,115,40,1) 99%, rgba(0,212,255,1) 99%);
+    background-color: lightgray;
+    /* background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(12,115,40,1) 99%, rgba(0,212,255,1) 99%); */
 }
 
 a {
@@ -35,17 +35,26 @@ a {
     display: flex;
     align-items: center; 
     width: 100%;
-    color: white;
+    color: black;
     text-decoration: none; 
 }
 
-a:hover {
+.track-information {
+    display: flex;
+}
+
+.track-information:hover {
     background-color: white; 
     color: black;
+    border: 5px solid white;
 }
 
 i {
     font-size: .75rem;
     margin-right: .5rem;
+}
+
+.now-playin {
+    background-color: white;
 
 }

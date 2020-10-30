@@ -32,9 +32,11 @@ export default class AudioPlayer {
             ctx.fillRect(0, 0, canvas.width, canvas.height);
         
             for (let i = 0; i < bufferLength; i++) {
-                const barHeight = dataArray[i] - 125;
-                const r = barHeight + (25 * (i / bufferLength))
-                ctx.fillStyle = `rgb(${r}, 100, 50`;
+                const barHeight = dataArray[i] - 130;
+                const r = barHeight + (55 * (i / bufferLength))
+                // ctx.fillStyle = `rgb(${r}, 100, 50`;
+                ctx.fillStyle = `rgb(189, 65, 65`;
+                // ctx.fillStyle = 'rgb(12,115,4)'
                 ctx.fillRect(bar, canvas.height - barHeight, barWidth, barHeight);
                 bar += barWidth + 2;
             }
@@ -43,6 +45,8 @@ export default class AudioPlayer {
         renderFrame();
 
     }
+
+
 
     createPlayerElements() {
         this.audioElem = document.createElement('audio'); 
@@ -62,17 +66,35 @@ export default class AudioPlayer {
         this.audio.forEach(audio => {
             const audioItem = document.createElement('a');
             const audioArtist = document.createElement('a')
+            const audioDiv = document.createElement('div')
+            const nowPlayin = document.createElement('div')
+
+            audioDiv.classList.add("track-information")
+            nowPlayin.classList.add("now-playin")
+
+            if (this.currentAudio !== null) {
+                // console.log("test true")
+                nowPlayin.innerHTML = `Now Playing: ${this.currentAudio.name} - ${this.currentAudio.artist}`
+            }
+
+            // nowPlayin.innerHTML = `Now Playing: ${audio.name} - ${audio.artist}`
+
+
+            audioDiv.appendChild(audioItem)
+            audioDiv.appendChild(audioArtist)
+
             audioItem.href = audio.url;
             audioItem.innerHTML = `<i class= "fa fa-play"></i> ${audio.name}`;
             audioArtist.innerHTML = `${audio.artist}`;
-            this.setupEventListener(audioItem);
-            playListElem.appendChild(audioItem);
-            playListElem.appendChild(audioArtist);
+            this.setupEventListener(audioDiv, audioItem);
+            playListElem.appendChild(audioDiv);
+            playListElem.appendChild(nowPlayin);
+
         })
     }
 
-    setupEventListener(audioItem) {
-        audioItem.addEventListener('click', (e) => {
+    setupEventListener(audioDiv, audioItem) {
+        audioDiv.addEventListener('click', (e) => {
             e.preventDefault();
             if (!this.audioContext) {
                 this.createVisualizer();
@@ -96,6 +118,14 @@ export default class AudioPlayer {
                 this.audioElem.play();
             }
         })
+    }
+
+    createSlider(r) {
+        const slider = document.createElement(`input`)
+        slider.setAttribute("type", "range")
+        slider.setAttribute("min", "0")
+        slider.setAttribute("max", "100")
+        slider.setAttribute("value", "0")
     }
 
 
