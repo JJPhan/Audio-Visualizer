@@ -98,8 +98,10 @@ function () {
 
       this.createPlaylistElements(playListElem); // this.createProgressBarElements(progressBarElem);
 
-      var nowPlayin = document.createElement('div');
+      var nowPlayin = document.createElement('marquee');
       nowPlayin.classList.add("now-playin");
+      nowPlayin.setAttribute("direction", "right"); // nowPlayin.setAttribute("scroll-d", "up")
+
       this.playerElem.appendChild(nowPlayin); // if (this.nowPlaying) {
       // nowPlayin.innerHTML = `Now Playing: ${this.cow}`
 

@@ -97,8 +97,10 @@ export default class AudioPlayer {
 
         
 
-        const nowPlayin = document.createElement('div')
+        const nowPlayin = document.createElement('marquee')
         nowPlayin.classList.add("now-playin")
+        nowPlayin.setAttribute("direction", "right")
+        // nowPlayin.setAttribute("scroll-d", "up")
         this.playerElem.appendChild(nowPlayin)
         
         // if (this.nowPlaying) {

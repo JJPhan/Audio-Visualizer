@@ -37,7 +37,7 @@ var audioPlayer = new _AudioPlayer["default"](".audioPlayer", [{
   name: "U Remind Me",
   artist: "Usher"
 }, {
-  url: 'songs/U_Remind_me.mp3',
-  name: "U Remind Me",
-  artist: "Usher"
+  url: 'songs/about_my_issue.mp3',
+  name: "About My Issue",
+  artist: "T.I, Victoria Monet"
 }]);
