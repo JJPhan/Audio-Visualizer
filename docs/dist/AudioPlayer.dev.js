@@ -186,10 +186,7 @@ function () {
           _this2.currentAudio = audioItem;
           _this2.nowPlaying = "".concat(audioItem.getAttribute("name"), " - ").concat(audioItem.getAttribute("artist"));
           var nowPlayin = document.querySelector(".now-playin");
-          nowPlayin.innerHTML = "Now Playing: ".concat(_this2.nowPlaying); // {console.log(this)}
-          // {console.log(this.cow)}
-          // {console.log(this.nowPlaying)}
-          /// test
+          nowPlayin.innerHTML = "Now Playing: ".concat(_this2.nowPlaying);
 
           _this2.setPauseIcon(_this2.currentAudio);
 

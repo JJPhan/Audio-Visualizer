@@ -9,4 +9,5 @@ const audioPlayer = new AudioPlayer(`.audioPlayer`, [
     { url: 'songs/Fly_Me_To_The_Moon.mp3', name: "Fly Me to the Moon", artist: "Sinatra"},
     { url: 'songs/The_Game_Of_love.mp3', name: "The Game of Love", artist: "Santana Ft. Michelle Branch"},
     { url: 'songs/U_Remind_me.mp3', name: "U Remind Me", artist: "Usher"},
+    { url: 'songs/U_Remind_me.mp3', name: "U Remind Me", artist: "Usher"}
 ]);

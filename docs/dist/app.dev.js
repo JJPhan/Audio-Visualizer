@@ -36,4 +36,8 @@ var audioPlayer = new _AudioPlayer["default"](".audioPlayer", [{
   url: 'songs/U_Remind_me.mp3',
   name: "U Remind Me",
   artist: "Usher"
+}, {
+  url: 'songs/U_Remind_me.mp3',
+  name: "U Remind Me",
+  artist: "Usher"
 }]);

@@ -166,7 +166,7 @@ export default class AudioPlayer {
             return audioItem;
         })
 
-        this.currentAudio = this.audioElements[0]
+        this.currentAudio = this.audioElements[0];
     }
 
     // chain setUpEventListener => 
@@ -197,10 +197,6 @@ export default class AudioPlayer {
                 let nowPlayin = document.querySelector(".now-playin")
                 nowPlayin.innerHTML = `Now Playing: ${this.nowPlaying}`
 
-                // {console.log(this)}
-                // {console.log(this.cow)}
-                // {console.log(this.nowPlaying)}
-                /// test
                 this.setPauseIcon(this.currentAudio);
                 this.audioElem.src = this.currentAudio.getAttribute('href');
                 this.audioElem.play();
