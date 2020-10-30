@@ -23,14 +23,20 @@ function () {
     this.playerElem = document.querySelector(selector);
     this.audio = audio;
     this.currentAudio = null;
-    this.createPlayerElements();
     this.audioContext = null;
     this.nowPlaying = "";
     this.cow = "cow";
     this.red = document.getElementById("red").value;
     this.blue = document.getElementById("blue").value;
     this.green = document.getElementById("green").value;
-  }
+    this.createPlayerElements();
+    this.colorSlider();
+  } // to do 
+  // progress bar
+  // upload feature
+  // change visual
+  // CRUD feature => local storage  
+
 
   _createClass(AudioPlayer, [{
     key: "createVisualizer",
@@ -56,37 +62,65 @@ function () {
 
         for (var i = 0; i < bufferLength; i++) {
           var barHeight = dataArray[i] - 130;
-          var r = barHeight + 55 * (i / bufferLength);
-          ctx.fillStyle = "rgb(".concat(r, ", 105, 65"); //
-          // ctx.fillStyle = `rgb(189, 65, 65`; // red
-          // ctx.fillStyle = 'rgb(12,115,4)'
+          var r = barHeight + 1 / 10 * (i / bufferLength); // ctx.fillStyle = `rgb(${r}, 105, 65`; //
+
+          var red = document.getElementById("red").value;
+          var blue = document.getElementById("blue").value;
+          var green = document.getElementById("green").value;
+          ctx.fillStyle = "rgb(".concat(red, " , ").concat(green, ", ").concat(blue); // ctx.fillStyle = 'rgb(12,115,4)'
 
           ctx.fillRect(bar, canvas.height - barHeight, barWidth, barHeight);
-          bar += barWidth + 2;
+          bar += barWidth + 3;
         }
       }
 
       renderFrame();
-    } // 
+    } // use innerHTML to save case variables
+    // can be like the waves
+    // can be bars
+    // create buttons to change innerHTML 
 
   }, {
     key: "createPlayerElements",
     value: function createPlayerElements() {
+      var containerElem = document.createElement('div');
+      containerElem.classList.add('container');
       this.audioElem = document.createElement('audio');
       var playListElem = document.createElement('div');
       playListElem.classList.add('playlist');
       this.visualiserElem = document.createElement('canvas');
-      this.playerElem.appendChild(this.audioElem);
-      this.playerElem.appendChild(playListElem);
-      this.playerElem.appendChild(this.visualiserElem);
-      this.createPlaylistElements(playListElem);
+      containerElem.appendChild(this.audioElem);
+      containerElem.appendChild(playListElem);
+      containerElem.appendChild(this.visualiserElem);
+      var progressBarElem = document.createElement('div'); // progressBarElem.classList.add("progressBar")
+
+      this.playerElem.appendChild(containerElem); // this.playerElem.appendChild(progressBarElem)
+
+      this.createPlaylistElements(playListElem); // this.createProgressBarElements(progressBarElem);
+
       var nowPlayin = document.createElement('div');
       nowPlayin.classList.add("now-playin");
-      this.playerElem.appendChild(nowPlayin); // nowPlayin.innerHTML = `Now Playing: ${this.currentAudio.name} - ${this.currentAudio.artist}`
-      // if (this.nowPlaying) {
+      this.playerElem.appendChild(nowPlayin); // if (this.nowPlaying) {
+      // nowPlayin.innerHTML = `Now Playing: ${this.cow}`
 
-      nowPlayin.innerHTML = "Now Playing: ".concat(this.cow); // }
-    } // iterate through audio array, 
+      nowPlayin.innerHTML = "Now Playing: ".concat(this.nowPlaying); // }
+    } // createProgressBarElements(progressBarElem) {
+    //     const container = document.createElement('div');
+    //     container.classList.add('container')
+    //     const previousBtn = document.createElement("button")
+    //     const nextBtn = document.createElement('button')
+    //     nextBtn.innerHTML = `<i class="fas fa-forward"></i>`;
+    //     previousBtn.innerHTML = `<i class="fas fa-backward"></i>`;
+    //     this.progressBar = document.createElement('canvas');
+    //     this.timer = document.createElement(`div`);
+    //     this.timer.classList.add('timer');
+    //     container.appendChild(previousBtn);
+    //     container.appendChild(this.timer);
+    //     container.appendChild(nextBtn);
+    //     progressBarElem.appendChild(container);
+    //     progressBarElem.appendChild(this.progressBar)
+    // }
+    // iterate through audio array, 
     // for each audio object create audioItem, audioArtist, audioDiv anchor tag
     // display the icon, track, artist in a row
     // slap event listener to audioDiv(the row)
@@ -97,7 +131,7 @@ function () {
     value: function createPlaylistElements(playListElem) {
       var _this = this;
 
-      this.audio.forEach(function (audio) {
+      this.audioElements = this.audio.map(function (audio) {
         var audioItem = document.createElement('a');
         var audioArtist = document.createElement('a');
         var audioDiv = document.createElement('div');
@@ -115,7 +149,9 @@ function () {
         _this.setupEventListener(audioDiv, audioItem);
 
         playListElem.appendChild(audioDiv);
+        return audioItem;
       });
+      this.currentAudio = this.audioElements[0];
     } // chain setUpEventListener => 
     // this.nowPlaying =>
     //Render Div
@@ -149,15 +185,11 @@ function () {
 
           _this2.currentAudio = audioItem;
           _this2.nowPlaying = "".concat(audioItem.getAttribute("name"), " - ").concat(audioItem.getAttribute("artist"));
-          {
-            console.log(_this2);
-          }
-          {
-            console.log(_this2.cow);
-          }
-          {
-            console.log(_this2.nowPlaying);
-          } /// test
+          var nowPlayin = document.querySelector(".now-playin");
+          nowPlayin.innerHTML = "Now Playing: ".concat(_this2.nowPlaying); // {console.log(this)}
+          // {console.log(this.cow)}
+          // {console.log(this.nowPlaying)}
+          /// test
 
           _this2.setPauseIcon(_this2.currentAudio);
 
@@ -197,11 +229,11 @@ function () {
 
       for (var i = 0; i < input.length; i++) {
         input[i].addEventListener("input", function () {
-          this.red = document.getElementById("red").value;
-          this.blue = document.getElementById("blue").value;
-          this.green = document.getElementById("green").value;
+          var red = document.getElementById("red").value;
+          var blue = document.getElementById("blue").value;
+          var green = document.getElementById("green").value;
           var display = document.getElementById("display");
-          display.style.background = "rgb(" + red + ", " + green + ", " + blue + ")";
+          display.style.background = "rgb(".concat(red, " , ").concat(green, ", ").concat(blue, ")");
         });
       }
     }
