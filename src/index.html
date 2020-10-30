@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jordan's Audio Visualizer</title>
+    <link rel="stylesheet" href="./style.css">
+    <!-- <link rel="stylesheet" href="./style.scss"> -->
+</head>
+<body>
+    <div class="audioPlayer"></div>
+    <script src="https://kit.fontawesome.com/1ca67b13ed.js" crossorigin="anonymous"></script>
+    <script type="module" src="./app.js"></script>
+    <div class="picker">
+        Red <input type="range" min="0" max="255" step="1" id="red"  value="26">
+        Blue <input type="range" min="0" max="255" step="1" id="blue" value="32">
+        Green <input type="range" min="0" max="255" step="1" id="green" value="45">
+        <div id="display"> </div>
+    </div>
+    <script type="text/javascript">
+        let input =  document.querySelectorAll("input");
+        for(let i = 0; i < input.length; i++) {
+            input[i].addEventListener("input", function(){
+                let red = document.getElementById("red").value
+                let blue = document.getElementById("blue").value
+                let green = document.getElementById("green").value
+
+                let display = document.getElementById("display")
+                display.style.background = "rgb(" + red + ", " + green + ", " + blue + ")";
+
+            });
+        }
+    </script>
+</body>
+</html>

@@ -6,6 +6,12 @@ export default class AudioPlayer {
         this.currentAudio = null;
         this.createPlayerElements();
         this.audioContext = null; 
+        this.nowPlaying = "";
+        this.cow = "cow";
+        this.red = document.getElementById("red").value;
+        this.blue = document.getElementById("blue").value;
+        this.green = document.getElementById("green").value;
+
     }
 
     createVisualizer() {
@@ -16,7 +22,7 @@ export default class AudioPlayer {
         const canvas = this.visualiserElem;
         const ctx = canvas.getContext('2d');
 
-        src.connect(analyser);
+        src.connect(analyser); 
         analyser.connect(this.audioContext.destination);
         analyser.fftSize = 128;
         const bufferLength = analyser.frequencyBinCount;
@@ -34,8 +40,8 @@ export default class AudioPlayer {
             for (let i = 0; i < bufferLength; i++) {
                 const barHeight = dataArray[i] - 130;
                 const r = barHeight + (55 * (i / bufferLength))
-                // ctx.fillStyle = `rgb(${r}, 100, 50`;
-                ctx.fillStyle = `rgb(189, 65, 65`;
+                ctx.fillStyle = `rgb(${r}, 105, 65`; //
+                // ctx.fillStyle = `rgb(189, 65, 65`; // red
                 // ctx.fillStyle = 'rgb(12,115,4)'
                 ctx.fillRect(bar, canvas.height - barHeight, barWidth, barHeight);
                 bar += barWidth + 2;
@@ -46,7 +52,7 @@ export default class AudioPlayer {
 
     }
 
-
+// 
 
     createPlayerElements() {
         this.audioElem = document.createElement('audio'); 
@@ -60,38 +66,54 @@ export default class AudioPlayer {
         this.playerElem.appendChild(playListElem);
         this.playerElem.appendChild(this.visualiserElem)
         this.createPlaylistElements(playListElem)
+
+
+        const nowPlayin = document.createElement('div')
+        nowPlayin.classList.add("now-playin")
+        this.playerElem.appendChild(nowPlayin)
+        // nowPlayin.innerHTML = `Now Playing: ${this.currentAudio.name} - ${this.currentAudio.artist}`
+        
+        // if (this.nowPlaying) {
+        nowPlayin.innerHTML = `Now Playing: ${this.cow}`
+        // }
+
     }
+// iterate through audio array, 
+    // for each audio object create audioItem, audioArtist, audioDiv anchor tag
+    // display the icon, track, artist in a row
+    // slap event listener to audioDiv(the row)
+    // shove it inside the main playlist element
 
     createPlaylistElements(playListElem) {
         this.audio.forEach(audio => {
             const audioItem = document.createElement('a');
             const audioArtist = document.createElement('a')
             const audioDiv = document.createElement('div')
-            const nowPlayin = document.createElement('div')
 
             audioDiv.classList.add("track-information")
-            nowPlayin.classList.add("now-playin")
-
-            if (this.currentAudio !== null) {
-                // console.log("test true")
-                nowPlayin.innerHTML = `Now Playing: ${this.currentAudio.name} - ${this.currentAudio.artist}`
-            }
-
-            // nowPlayin.innerHTML = `Now Playing: ${audio.name} - ${audio.artist}`
 
 
             audioDiv.appendChild(audioItem)
             audioDiv.appendChild(audioArtist)
+
+
+            // set attribute vs ln 95
+            // get attribute vs audioItem.name/artist
+
+            audioItem.setAttribute("name", `${audio.name}`)
+            audioItem.setAttribute("artist", `${audio.artist}`)
 
             audioItem.href = audio.url;
             audioItem.innerHTML = `<i class= "fa fa-play"></i> ${audio.name}`;
             audioArtist.innerHTML = `${audio.artist}`;
             this.setupEventListener(audioDiv, audioItem);
             playListElem.appendChild(audioDiv);
-            playListElem.appendChild(nowPlayin);
-
         })
     }
+
+    // chain setUpEventListener => 
+    // this.nowPlaying =>
+    //Render Div
 
     setupEventListener(audioDiv, audioItem) {
         audioDiv.addEventListener('click', (e) => {
@@ -113,6 +135,12 @@ export default class AudioPlayer {
                     this.setPlayIcon(this.currentAudio);
                 }
                 this.currentAudio = audioItem;
+                this.nowPlaying = `${audioItem.getAttribute("name")} - ${audioItem.getAttribute("artist")}`
+
+                {console.log(this)}
+                {console.log(this.cow)}
+                {console.log(this.nowPlaying)}
+                /// test
                 this.setPauseIcon(this.currentAudio);
                 this.audioElem.src = this.currentAudio.getAttribute('href');
                 this.audioElem.play();
@@ -142,6 +170,19 @@ export default class AudioPlayer {
         icon.classList.add('fa-pause');
     }
 
+    colorSlider(){
+    let input =  document.querySelectorAll("input");
+        for(let i = 0; i < input.length; i++) {
+            input[i].addEventListener("input", function(){
+                this.red = document.getElementById("red").value
+                this.blue = document.getElementById("blue").value
+                this.green = document.getElementById("green").value
+
+                let display = document.getElementById("display")
+                display.style.background = "rgb(" + red + ", " + green + ", " + blue + ")";
+            });
+        }
+    }   
 
 }
 

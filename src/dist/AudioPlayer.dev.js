@@ -25,6 +25,11 @@ function () {
     this.currentAudio = null;
     this.createPlayerElements();
     this.audioContext = null;
+    this.nowPlaying = "";
+    this.cow = "cow";
+    this.red = document.getElementById("red").value;
+    this.blue = document.getElementById("blue").value;
+    this.green = document.getElementById("green").value;
   }
 
   _createClass(AudioPlayer, [{
@@ -51,9 +56,10 @@ function () {
 
         for (var i = 0; i < bufferLength; i++) {
           var barHeight = dataArray[i] - 130;
-          var r = barHeight + 55 * (i / bufferLength); // ctx.fillStyle = `rgb(${r}, 100, 50`;
-
-          ctx.fillStyle = "rgb(189, 65, 65"; // ctx.fillStyle = 'rgb(12,115,4)'
+          var r = barHeight + 55 * (i / bufferLength);
+          ctx.fillStyle = "rgb(".concat(r, ", 105, 65"); //
+          // ctx.fillStyle = `rgb(189, 65, 65`; // red
+          // ctx.fillStyle = 'rgb(12,115,4)'
 
           ctx.fillRect(bar, canvas.height - barHeight, barWidth, barHeight);
           bar += barWidth + 2;
@@ -61,7 +67,8 @@ function () {
       }
 
       renderFrame();
-    }
+    } // 
+
   }, {
     key: "createPlayerElements",
     value: function createPlayerElements() {
@@ -73,7 +80,18 @@ function () {
       this.playerElem.appendChild(playListElem);
       this.playerElem.appendChild(this.visualiserElem);
       this.createPlaylistElements(playListElem);
-    }
+      var nowPlayin = document.createElement('div');
+      nowPlayin.classList.add("now-playin");
+      this.playerElem.appendChild(nowPlayin); // nowPlayin.innerHTML = `Now Playing: ${this.currentAudio.name} - ${this.currentAudio.artist}`
+      // if (this.nowPlaying) {
+
+      nowPlayin.innerHTML = "Now Playing: ".concat(this.cow); // }
+    } // iterate through audio array, 
+    // for each audio object create audioItem, audioArtist, audioDiv anchor tag
+    // display the icon, track, artist in a row
+    // slap event listener to audioDiv(the row)
+    // shove it inside the main playlist element
+
   }, {
     key: "createPlaylistElements",
     value: function createPlaylistElements(playListElem) {
@@ -83,18 +101,13 @@ function () {
         var audioItem = document.createElement('a');
         var audioArtist = document.createElement('a');
         var audioDiv = document.createElement('div');
-        var nowPlayin = document.createElement('div');
         audioDiv.classList.add("track-information");
-        nowPlayin.classList.add("now-playin");
-
-        if (_this.currentAudio !== null) {
-          // console.log("test true")
-          nowPlayin.innerHTML = "Now Playing: ".concat(_this.currentAudio.name, " - ").concat(_this.currentAudio.artist);
-        } // nowPlayin.innerHTML = `Now Playing: ${audio.name} - ${audio.artist}`
-
-
         audioDiv.appendChild(audioItem);
-        audioDiv.appendChild(audioArtist);
+        audioDiv.appendChild(audioArtist); // set attribute vs ln 95
+        // get attribute vs audioItem.name/artist
+
+        audioItem.setAttribute("name", "".concat(audio.name));
+        audioItem.setAttribute("artist", "".concat(audio.artist));
         audioItem.href = audio.url;
         audioItem.innerHTML = "<i class= \"fa fa-play\"></i> ".concat(audio.name);
         audioArtist.innerHTML = "".concat(audio.artist);
@@ -102,9 +115,11 @@ function () {
         _this.setupEventListener(audioDiv, audioItem);
 
         playListElem.appendChild(audioDiv);
-        playListElem.appendChild(nowPlayin);
       });
-    }
+    } // chain setUpEventListener => 
+    // this.nowPlaying =>
+    //Render Div
+
   }, {
     key: "setupEventListener",
     value: function setupEventListener(audioDiv, audioItem) {
@@ -133,6 +148,16 @@ function () {
           }
 
           _this2.currentAudio = audioItem;
+          _this2.nowPlaying = "".concat(audioItem.getAttribute("name"), " - ").concat(audioItem.getAttribute("artist"));
+          {
+            console.log(_this2);
+          }
+          {
+            console.log(_this2.cow);
+          }
+          {
+            console.log(_this2.nowPlaying);
+          } /// test
 
           _this2.setPauseIcon(_this2.currentAudio);
 
@@ -164,6 +189,21 @@ function () {
       var icon = elem.querySelector('i');
       icon.classList.remove('fa-play');
       icon.classList.add('fa-pause');
+    }
+  }, {
+    key: "colorSlider",
+    value: function colorSlider() {
+      var input = document.querySelectorAll("input");
+
+      for (var i = 0; i < input.length; i++) {
+        input[i].addEventListener("input", function () {
+          this.red = document.getElementById("red").value;
+          this.blue = document.getElementById("blue").value;
+          this.green = document.getElementById("green").value;
+          var display = document.getElementById("display");
+          display.style.background = "rgb(" + red + ", " + green + ", " + blue + ")";
+        });
+      }
     }
   }]);
 

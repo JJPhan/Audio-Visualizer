@@ -12,7 +12,8 @@
   "dependencies": {
     "parcel": "^1.12.4",
     "sass": "^1.27.1",
-    "scss": "^0.2.4"
+    "scss": "^0.2.4",
+    "webkit-npm": "^3.1.1"
   },
   "devDependencies": {},
   "description": ""
