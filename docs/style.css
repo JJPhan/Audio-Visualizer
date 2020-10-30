@@ -58,7 +58,10 @@ i {
 
 .now-playin {
     background-color: white;
-
+    height: 50px;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
 }
 
 
