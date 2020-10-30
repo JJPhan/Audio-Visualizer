@@ -1,0 +1,30 @@
+html, body {
+  height: 100%;
+  font-family: monospace;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid pink;
+}
+
+.audioPlayer {
+  box-shadow: 0 0 32px 4px rgba(0, 0, 0, 0.2);
+  width: 600px;
+  display: flex;
+  border: 1px solid #608a60;
+}
+.audioPlayer canvas {
+  flex: 2;
+  width: 100%;
+  background-color: black;
+}
+.audioPlayer .playlist {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border: 1px solid red;
+  background: linear-gradient(90deg, #020024 0%, #0c7328 99%, #00d4ff 99%);
+}
