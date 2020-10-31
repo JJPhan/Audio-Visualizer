@@ -40,4 +40,12 @@ var audioPlayer = new _AudioPlayer["default"](".audioPlayer", [{
   url: 'songs/about_my_issue.mp3',
   name: "About My Issue",
   artist: "T.I, Victoria Monet"
+}, {
+  url: 'songs/pkmn_center.mp3',
+  name: "Pokemon Center",
+  artist: "Red / Blue / Yellow Version"
+}, {
+  url: 'songs/lost_woods.mp3',
+  name: "Lost Woods",
+  artist: "Orcarina of Time"
 }]);

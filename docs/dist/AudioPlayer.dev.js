@@ -31,8 +31,6 @@ function () {
     this.createPlayerElements();
     this.colorSlider();
   } // to do 
-  // progress bar 
-  //  [  ]  
   // space -> play / pause
   //  [  ]               
   // upload feature
