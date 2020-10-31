@@ -134,6 +134,13 @@ export default class AudioPlayer {
         // why this.timer why not let timer = 
         this.progressBar = document.createElement('canvas');
         this.progressBar.classList.add("progress-bar-canvas")
+        this.progressBar.addEventListener('click', (e) => {
+            
+            const progressBarWidth = parseInt(window.getComputedStyle(this.progressBar).width);
+            const amountComplete = (e.clientX - this.progressBar.getBoundingClientRect().left) / progressBarWidth;
+            this.audioElem.currentTime = (this.audioElem.duration || 0 ) * amountComplete
+        })
+
         this.timer = document.createElement(`div`);
         this.timer.classList.add('timer');
 
@@ -267,6 +274,8 @@ export default class AudioPlayer {
         this.timer.innerHTML = `${parseTime(currentTime)}/${parseTime(duration)}`;
 
         this.updateProgressBar();
+
+        this.updateProgressBar()
     }
 
     updateProgressBar() {
