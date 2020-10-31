@@ -14,8 +14,7 @@ export default class AudioPlayer {
     }
 
     // to do 
-        // progress bar 
-            //  [  ]  
+  
         // space -> play / pause
             //  [  ]               
         // upload feature
