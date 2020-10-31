@@ -6,20 +6,24 @@ export default class AudioPlayer {
         this.currentAudio = null;
         this.audioContext = null; 
         this.nowPlaying = "";
-        this.cow = "cow";
         this.red = document.getElementById("red").value;
         this.blue = document.getElementById("blue").value;
         this.green = document.getElementById("green").value;
         this.createPlayerElements();
         this.colorSlider();
-
     }
 
     // to do 
-        // progress bar
+        // progress bar 
+            //  [  ]  
+        // space -> play / pause
+            //  [  ]               
         // upload feature
+            //  [  ]  
         // change visual
+            //  [  ]  
         // CRUD feature => local storage  
+            //  [  ]  
 
     createVisualizer() {
         this.audioContext = new AudioContext();
@@ -75,6 +79,8 @@ export default class AudioPlayer {
 
 
         this.audioElem = document.createElement('audio'); 
+        this.audioElem.addEventListener('timeupdate', this.updateTime.bind(this))
+
         const playListElem = document.createElement('div');
         playListElem.classList.add('playlist');
 
@@ -86,13 +92,13 @@ export default class AudioPlayer {
         containerElem.appendChild(this.visualiserElem)
         
         const progressBarElem = document.createElement('div')
-        // progressBarElem.classList.add("progressBar")
+        progressBarElem.classList.add("progressBar")
         
         this.playerElem.appendChild(containerElem)
-        // this.playerElem.appendChild(progressBarElem)
+        this.playerElem.appendChild(progressBarElem)
         
         this.createPlaylistElements(playListElem);
-        // this.createProgressBarElements(progressBarElem);
+        this.createProgressBarElements(progressBarElem);
 
 
         
@@ -101,38 +107,45 @@ export default class AudioPlayer {
         nowPlayin.classList.add("now-playin")
         nowPlayin.setAttribute("direction", "right")
         // nowPlayin.setAttribute("scroll-d", "up")
-        this.playerElem.appendChild(nowPlayin)
+        containerElem.appendChild(nowPlayin)
         
-        // if (this.nowPlaying) {
-   
-            // nowPlayin.innerHTML = `Now Playing: ${this.cow}`
+        nowPlayin.setAttribute("target", "_blank")
         nowPlayin.innerHTML = `Now Playing: ${this.nowPlaying}`
-            // }
+        // nowPlayin.innerHTML = ` Now Playing: ${this.nowPlaying} <a href="https://github.com/JJPhan"> Visit My GitHub! </a>`
 
     }
 
-    // createProgressBarElements(progressBarElem) {
-    //     const container = document.createElement('div');
-    //     container.classList.add('container')
+    createProgressBarElements(progressBarElem) {
+        const container = document.createElement('div');
+        container.classList.add('button-container')
 
-    //     const previousBtn = document.createElement("button")
-    //     const nextBtn = document.createElement('button')
+        const previousBtn = document.createElement("button")
+        previousBtn.classList.add("playback-buttons")
+        const nextBtn = document.createElement('button')
+        nextBtn.classList.add("playback-buttons")
 
-    //     nextBtn.innerHTML = `<i class="fas fa-forward"></i>`;
-    //     previousBtn.innerHTML = `<i class="fas fa-backward"></i>`;
+        nextBtn.innerHTML = `<i class="fas fa-forward"></i>`;
+        previousBtn.innerHTML = `<i class="fas fa-backward"></i>`;
 
-    //     this.progressBar = document.createElement('canvas');
-    //     this.timer = document.createElement(`div`);
-    //     this.timer.classList.add('timer');
+        nextBtn.addEventListener('click', this.playNext.bind(this));
+        previousBtn.addEventListener('click', this.playPrevious.bind(this));
 
-    //     container.appendChild(previousBtn);
-    //     container.appendChild(this.timer);
-    //     container.appendChild(nextBtn);
 
-    //     progressBarElem.appendChild(container);
-    //     progressBarElem.appendChild(this.progressBar)
+        // why this.timer why not let timer = 
+        this.progressBar = document.createElement('canvas');
+        this.progressBar.classList.add("progress-bar-canvas")
+        this.timer = document.createElement(`div`);
+        this.timer.classList.add('timer');
 
-    // }
+        container.appendChild(previousBtn);
+        container.appendChild(this.timer);
+        container.appendChild(nextBtn);
+
+        progressBarElem.appendChild(container);
+        progressBarElem.appendChild(this.progressBar)
+    }
+
+
 // iterate through audio array, 
     // for each audio object create audioItem, audioArtist, audioDiv anchor tag
     // display the icon, track, artist in a row
@@ -241,6 +254,68 @@ export default class AudioPlayer {
             });
         }
     }   
+
+    updateTime() {
+        const parseTime = time => {
+            const seconds = String(Math.floor(time % 60 || 0 )).padStart('2', '0');
+            const minutes = String(Math.floor(time / 60) || 0).padStart('2', '0');
+
+            return `${minutes}:${seconds}`
+        }
+
+        const { currentTime, duration } = this.audioElem;
+        this.timer.innerHTML = `${parseTime(currentTime)}/${parseTime(duration)}`;
+
+        this.updateProgressBar();
+    }
+
+    updateProgressBar() {
+        const progressSize = (current, overall, width) => ( current / overall) * width;
+        const { currentTime, duration} = this.audioElem;
+
+        const progressCtx = this.progressBar.getContext('2d')
+
+        progressCtx.fillStyle = `#000`
+        progressCtx.fillRect(0,0, this.progressBar.width, this.progressBar.height)
+
+        progressCtx.fillStyle = '#65ac6b'
+        progressCtx.fillRect(0,0, progressSize(currentTime, duration, this.progressBar.width), this.progressBar.height)
+    }
+
+    updateCurrentAudio(nextAudio) {
+        if (!this.audioContext) {
+            this.createVisualizer();
+        }
+            this.setPlayIcon(this.currentAudio);
+            this.currentAudio = nextAudio;
+            this.setPauseIcon(this.currentAudio);
+            this.audioElem.src = this.currentAudio.getAttribute('href');
+            this.audioElem.play();
+    }
+
+    playNext() {
+        const index = this.audioElements.findIndex(
+            audioItem => audioItem.getAttribute('href') === this.currentAudio.getAttribute('href')
+        );
+
+        const nextAudio = index >= this.audioElements.length - 1 ? this.audioElements[0] : this.audioElements[index + 1];
+        this.updateCurrentAudio(nextAudio)
+        this.nowPlaying = `${nextAudio.getAttribute("name")} - ${nextAudio.getAttribute("artist")}`
+        let nowPlayin = document.querySelector(".now-playin")
+        nowPlayin.innerHTML = `Now Playing: ${this.nowPlaying}`
+    }
+
+    playPrevious() {
+        const index = this.audioElements.findIndex(
+            audioItem => audioItem.getAttribute('href') === this.currentAudio.getAttribute('href')
+        );
+
+        const nextAudio = index <= 0 ? this.audioElements[this.audioElements.length - 1] : this.audioElements[index - 1]
+        this.updateCurrentAudio(nextAudio)
+        this.nowPlaying = `${nextAudio.getAttribute("name")} - ${nextAudio.getAttribute("artist")}`
+        let nowPlayin = document.querySelector(".now-playin")
+        nowPlayin.innerHTML = `Now Playing: ${this.nowPlaying}`
+    }
 
 }
 

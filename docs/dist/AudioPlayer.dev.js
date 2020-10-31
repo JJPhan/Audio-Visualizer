@@ -25,17 +25,22 @@ function () {
     this.currentAudio = null;
     this.audioContext = null;
     this.nowPlaying = "";
-    this.cow = "cow";
     this.red = document.getElementById("red").value;
     this.blue = document.getElementById("blue").value;
     this.green = document.getElementById("green").value;
     this.createPlayerElements();
     this.colorSlider();
   } // to do 
-  // progress bar
+  // progress bar 
+  //  [  ]  
+  // space -> play / pause
+  //  [  ]               
   // upload feature
+  //  [  ]  
   // change visual
+  //  [  ]  
   // CRUD feature => local storage  
+  //  [  ]  
 
 
   _createClass(AudioPlayer, [{
@@ -86,43 +91,51 @@ function () {
       var containerElem = document.createElement('div');
       containerElem.classList.add('container');
       this.audioElem = document.createElement('audio');
+      this.audioElem.addEventListener('timeupdate', this.updateTime.bind(this));
       var playListElem = document.createElement('div');
       playListElem.classList.add('playlist');
       this.visualiserElem = document.createElement('canvas');
       containerElem.appendChild(this.audioElem);
       containerElem.appendChild(playListElem);
       containerElem.appendChild(this.visualiserElem);
-      var progressBarElem = document.createElement('div'); // progressBarElem.classList.add("progressBar")
-
-      this.playerElem.appendChild(containerElem); // this.playerElem.appendChild(progressBarElem)
-
-      this.createPlaylistElements(playListElem); // this.createProgressBarElements(progressBarElem);
-
+      var progressBarElem = document.createElement('div');
+      progressBarElem.classList.add("progressBar");
+      this.playerElem.appendChild(containerElem);
+      this.playerElem.appendChild(progressBarElem);
+      this.createPlaylistElements(playListElem);
+      this.createProgressBarElements(progressBarElem);
       var nowPlayin = document.createElement('marquee');
       nowPlayin.classList.add("now-playin");
       nowPlayin.setAttribute("direction", "right"); // nowPlayin.setAttribute("scroll-d", "up")
 
-      this.playerElem.appendChild(nowPlayin); // if (this.nowPlaying) {
-      // nowPlayin.innerHTML = `Now Playing: ${this.cow}`
+      containerElem.appendChild(nowPlayin);
+      nowPlayin.setAttribute("target", "_blank");
+      nowPlayin.innerHTML = "Now Playing: ".concat(this.nowPlaying); // nowPlayin.innerHTML = ` Now Playing: ${this.nowPlaying} <a href="https://github.com/JJPhan"> Visit My GitHub! </a>`
+    }
+  }, {
+    key: "createProgressBarElements",
+    value: function createProgressBarElements(progressBarElem) {
+      var container = document.createElement('div');
+      container.classList.add('button-container');
+      var previousBtn = document.createElement("button");
+      previousBtn.classList.add("playback-buttons");
+      var nextBtn = document.createElement('button');
+      nextBtn.classList.add("playback-buttons");
+      nextBtn.innerHTML = "<i class=\"fas fa-forward\"></i>";
+      previousBtn.innerHTML = "<i class=\"fas fa-backward\"></i>";
+      nextBtn.addEventListener('click', this.playNext.bind(this));
+      previousBtn.addEventListener('click', this.playPrevious.bind(this)); // why this.timer why not let timer = 
 
-      nowPlayin.innerHTML = "Now Playing: ".concat(this.nowPlaying); // }
-    } // createProgressBarElements(progressBarElem) {
-    //     const container = document.createElement('div');
-    //     container.classList.add('container')
-    //     const previousBtn = document.createElement("button")
-    //     const nextBtn = document.createElement('button')
-    //     nextBtn.innerHTML = `<i class="fas fa-forward"></i>`;
-    //     previousBtn.innerHTML = `<i class="fas fa-backward"></i>`;
-    //     this.progressBar = document.createElement('canvas');
-    //     this.timer = document.createElement(`div`);
-    //     this.timer.classList.add('timer');
-    //     container.appendChild(previousBtn);
-    //     container.appendChild(this.timer);
-    //     container.appendChild(nextBtn);
-    //     progressBarElem.appendChild(container);
-    //     progressBarElem.appendChild(this.progressBar)
-    // }
-    // iterate through audio array, 
+      this.progressBar = document.createElement('canvas');
+      this.progressBar.classList.add("progress-bar-canvas");
+      this.timer = document.createElement("div");
+      this.timer.classList.add('timer');
+      container.appendChild(previousBtn);
+      container.appendChild(this.timer);
+      container.appendChild(nextBtn);
+      progressBarElem.appendChild(container);
+      progressBarElem.appendChild(this.progressBar);
+    } // iterate through audio array, 
     // for each audio object create audioItem, audioArtist, audioDiv anchor tag
     // display the icon, track, artist in a row
     // slap event listener to audioDiv(the row)
@@ -235,6 +248,78 @@ function () {
           display.style.background = "rgb(".concat(red, " , ").concat(green, ", ").concat(blue, ")");
         });
       }
+    }
+  }, {
+    key: "updateTime",
+    value: function updateTime() {
+      var parseTime = function parseTime(time) {
+        var seconds = String(Math.floor(time % 60 || 0)).padStart('2', '0');
+        var minutes = String(Math.floor(time / 60) || 0).padStart('2', '0');
+        return "".concat(minutes, ":").concat(seconds);
+      };
+
+      var _this$audioElem = this.audioElem,
+          currentTime = _this$audioElem.currentTime,
+          duration = _this$audioElem.duration;
+      this.timer.innerHTML = "".concat(parseTime(currentTime), "/").concat(parseTime(duration));
+      this.updateProgressBar();
+    }
+  }, {
+    key: "updateProgressBar",
+    value: function updateProgressBar() {
+      var progressSize = function progressSize(current, overall, width) {
+        return current / overall * width;
+      };
+
+      var _this$audioElem2 = this.audioElem,
+          currentTime = _this$audioElem2.currentTime,
+          duration = _this$audioElem2.duration;
+      var progressCtx = this.progressBar.getContext('2d');
+      progressCtx.fillStyle = "#000";
+      progressCtx.fillRect(0, 0, this.progressBar.width, this.progressBar.height);
+      progressCtx.fillStyle = '#65ac6b';
+      progressCtx.fillRect(0, 0, progressSize(currentTime, duration, this.progressBar.width), this.progressBar.height);
+    }
+  }, {
+    key: "updateCurrentAudio",
+    value: function updateCurrentAudio(nextAudio) {
+      if (!this.audioContext) {
+        this.createVisualizer();
+      }
+
+      this.setPlayIcon(this.currentAudio);
+      this.currentAudio = nextAudio;
+      this.setPauseIcon(this.currentAudio);
+      this.audioElem.src = this.currentAudio.getAttribute('href');
+      this.audioElem.play();
+    }
+  }, {
+    key: "playNext",
+    value: function playNext() {
+      var _this3 = this;
+
+      var index = this.audioElements.findIndex(function (audioItem) {
+        return audioItem.getAttribute('href') === _this3.currentAudio.getAttribute('href');
+      });
+      var nextAudio = index >= this.audioElements.length - 1 ? this.audioElements[0] : this.audioElements[index + 1];
+      this.updateCurrentAudio(nextAudio);
+      this.nowPlaying = "".concat(nextAudio.getAttribute("name"), " - ").concat(nextAudio.getAttribute("artist"));
+      var nowPlayin = document.querySelector(".now-playin");
+      nowPlayin.innerHTML = "Now Playing: ".concat(this.nowPlaying);
+    }
+  }, {
+    key: "playPrevious",
+    value: function playPrevious() {
+      var _this4 = this;
+
+      var index = this.audioElements.findIndex(function (audioItem) {
+        return audioItem.getAttribute('href') === _this4.currentAudio.getAttribute('href');
+      });
+      var nextAudio = index <= 0 ? this.audioElements[this.audioElements.length - 1] : this.audioElements[index - 1];
+      this.updateCurrentAudio(nextAudio);
+      this.nowPlaying = "".concat(nextAudio.getAttribute("name"), " - ").concat(nextAudio.getAttribute("artist"));
+      var nowPlayin = document.querySelector(".now-playin");
+      nowPlayin.innerHTML = "Now Playing: ".concat(this.nowPlaying);
     }
   }]);
 
