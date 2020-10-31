@@ -29,7 +29,7 @@ var audioPlayer = new _AudioPlayer["default"](".audioPlayer", [{
   name: "Fly Me to the Moon",
   artist: "Sinatra"
 }, {
-  url: 'songs/The_Game_Of_love.mp3',
+  url: 'songs/The_Game_Of_Love.mp3',
   name: "The Game of Love",
   artist: "Santana Ft. Michelle Branch"
 }, {
