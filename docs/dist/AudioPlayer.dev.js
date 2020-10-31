@@ -65,12 +65,14 @@ function () {
 
         for (var i = 0; i < bufferLength; i++) {
           var barHeight = dataArray[i] - 130;
-          var r = barHeight + 1 / 10 * (i / bufferLength); // ctx.fillStyle = `rgb(${r}, 105, 65`; //
+          var r = barHeight + 1 / 10 * (i / bufferLength);
+          console.log(r); // ctx.fillStyle = `rgb(${r}, 105, 65`; //
 
           var red = document.getElementById("red").value;
           var blue = document.getElementById("blue").value;
-          var green = document.getElementById("green").value;
-          ctx.fillStyle = "rgb(".concat(red, " , ").concat(green, ", ").concat(blue); // ctx.fillStyle = 'rgb(12,115,4)'
+          var green = document.getElementById("green").value; // ctx.fillStyle = `rgb(${red} , ${green}, ${blue}`;
+
+          ctx.fillStyle = "rgb(".concat(red, " , ").concat(green, ", ").concat(blue); // ctx.fillStyle = `rgb(${r}, 105, 65`; //
 
           ctx.fillRect(bar, canvas.height - barHeight, barWidth, barHeight);
           bar += barWidth + 3;
@@ -104,11 +106,10 @@ function () {
       this.createProgressBarElements(progressBarElem);
       var nowPlayin = document.createElement('marquee');
       nowPlayin.classList.add("now-playin");
-      nowPlayin.setAttribute("direction", "right"); // nowPlayin.setAttribute("scroll-d", "up")
-
+      nowPlayin.setAttribute("direction", "right");
       containerElem.appendChild(nowPlayin);
       nowPlayin.setAttribute("target", "_blank");
-      nowPlayin.innerHTML = "Now Playing: ".concat(this.nowPlaying); // nowPlayin.innerHTML = ` Now Playing: ${this.nowPlaying} <a href="https://github.com/JJPhan"> Visit My GitHub! </a>`
+      nowPlayin.innerHTML = "Now Playing: ".concat(this.nowPlaying);
     }
   }, {
     key: "createProgressBarElements",
