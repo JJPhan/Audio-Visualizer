@@ -50,12 +50,14 @@ export default class AudioPlayer {
             for (let i = 0; i < bufferLength; i++) {
                 const barHeight = dataArray[i] - 130;
                 const r = barHeight + (1/10 * (i / bufferLength))
+                console.log(r)
                 // ctx.fillStyle = `rgb(${r}, 105, 65`; //
                 let red = document.getElementById("red").value
                 let blue = document.getElementById("blue").value
                 let green = document.getElementById("green").value   
+                // ctx.fillStyle = `rgb(${red} , ${green}, ${blue}`;
                 ctx.fillStyle = `rgb(${red} , ${green}, ${blue}`;
-                // ctx.fillStyle = 'rgb(12,115,4)'
+                // ctx.fillStyle = `rgb(${r}, 105, 65`; //
                 ctx.fillRect(bar, canvas.height - barHeight, barWidth, barHeight);
                 bar += barWidth + 3;
             }
@@ -105,12 +107,10 @@ export default class AudioPlayer {
         const nowPlayin = document.createElement('marquee')
         nowPlayin.classList.add("now-playin")
         nowPlayin.setAttribute("direction", "right")
-        // nowPlayin.setAttribute("scroll-d", "up")
         containerElem.appendChild(nowPlayin)
         
         nowPlayin.setAttribute("target", "_blank")
         nowPlayin.innerHTML = `Now Playing: ${this.nowPlaying}`
-        // nowPlayin.innerHTML = ` Now Playing: ${this.nowPlaying} <a href="https://github.com/JJPhan"> Visit My GitHub! </a>`
 
     }
 
