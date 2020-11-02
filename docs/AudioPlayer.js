@@ -283,7 +283,12 @@ export default class AudioPlayer {
                 let green = document.getElementById("green").value
 
                 let display = document.getElementById("display")
+                let link1 = document.getElementById("link-color1")
+                let link2 = document.getElementById("link-color2")
+
                 display.style.background = `rgb(${red} , ${green}, ${blue})`;
+                link1.style.color = `rgb(${red} , ${green}, ${blue})`;
+                link2.style.color = `rgb(${red} , ${green}, ${blue})`;
             });
         }
     }   

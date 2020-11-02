@@ -277,7 +277,11 @@ function () {
           var blue = document.getElementById("blue").value;
           var green = document.getElementById("green").value;
           var display = document.getElementById("display");
+          var link1 = document.getElementById("link-color1");
+          var link2 = document.getElementById("link-color2");
           display.style.background = "rgb(".concat(red, " , ").concat(green, ", ").concat(blue, ")");
+          link1.style.color = "rgb(".concat(red, " , ").concat(green, ", ").concat(blue, ")");
+          link2.style.color = "rgb(".concat(red, " , ").concat(green, ", ").concat(blue, ")");
         });
       }
     }

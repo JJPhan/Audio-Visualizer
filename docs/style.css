@@ -24,7 +24,6 @@ body {
     width: 600px;
     display: flex;
     flex-direction: column;
-    /* border: 1px solid rgb(96, 138, 96); */
     border: 1px solid black;
 }
 
@@ -62,7 +61,6 @@ a {
 .track-information:hover {
     background-color: white; 
     color: black;
-    /* border: 5px solid white; */
 }
 
 i {
@@ -158,8 +156,16 @@ input[type="range"] {
     color: black;
 }
 
-#links {
+.link-color1 {
     color: yellow;
+}
+
+.link-color2 {
+    color: yellow;
+}
+
+#links {
+    color: white;
 }
 
 footer {
@@ -175,11 +181,13 @@ footer {
 
 .fab {
     font-size: 35px;
+    background: black;
 }
 
 .fab:hover {
-    font-size: 40px;
+    color: pink;
 }
+
 
 
 
