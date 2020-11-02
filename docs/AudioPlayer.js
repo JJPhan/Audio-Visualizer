@@ -193,7 +193,7 @@ export default class AudioPlayer {
             return audioItem;
         })
 
-        this.currentAudio = this.audioElements[0];
+        this.currentAudio = this.audioElements[9];
     }
 
     // chain setUpEventListener => 
@@ -210,15 +210,36 @@ export default class AudioPlayer {
             const isCurrentAudio = audioItem.getAttribute('href') === (this.currentAudio && this.currentAudio.getAttribute('href'))
         
             if (isCurrentAudio && !this.audioElem.paused) {
+                console.log("test 1")
                 this.setPlayIcon(this.currentAudio);
                 this.audioElem.pause();
             } else if (isCurrentAudio && this.audioElem.paused) {
-                this.setPauseIcon(this.currentAudio);
-                this.audioElem.play();
+                console.log("test 2")
+                console.log(isCurrentAudio)
+                console.log("audioItem.getAttribute('href')")
+                console.log(audioItem.getAttribute('href'))
+                console.log("this.currentAudio")
+                console.log(this.currentAudio)
+                console.log("this.currentAudio.getAttribute('href')")
+                console.log(this.currentAudio.getAttribute('href'))
+
+                this.setPauseIcon(this.currentAudio)
+                this.currentAudio.load
+                this.audioElem.play()
+                console.log(this.audioElem.play())
             } else {
                 if (this.currentAudio) {
                     this.setPlayIcon(this.currentAudio);
                 }
+                console.log("test 3")
+                console.log(isCurrentAudio)
+                console.log("audioItem.getAttribute('href')")
+                console.log(audioItem.getAttribute('href'))
+                console.log("this.currentAudio")
+                console.log(this.currentAudio)
+                console.log("this.currentAudio.getAttribute('href')")
+                console.log(this.currentAudio.getAttribute('href'))
+
                 this.currentAudio = audioItem;
                 this.nowPlaying = `${audioItem.getAttribute("name")} - ${audioItem.getAttribute("artist")}`
                 let nowPlayin = document.querySelector(".now-playin")

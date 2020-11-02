@@ -175,7 +175,7 @@ function () {
         playListElem.appendChild(audioDiv);
         return audioItem;
       });
-      this.currentAudio = this.audioElements[0];
+      this.currentAudio = this.audioElements[9];
     } // chain setUpEventListener => 
     // this.nowPlaying =>
     //Render Div
@@ -195,18 +195,41 @@ function () {
         var isCurrentAudio = audioItem.getAttribute('href') === (_this3.currentAudio && _this3.currentAudio.getAttribute('href'));
 
         if (isCurrentAudio && !_this3.audioElem.paused) {
+          console.log("test 1");
+
           _this3.setPlayIcon(_this3.currentAudio);
 
           _this3.audioElem.pause();
         } else if (isCurrentAudio && _this3.audioElem.paused) {
+          console.log("test 2");
+          console.log(isCurrentAudio);
+          console.log("audioItem.getAttribute('href')");
+          console.log(audioItem.getAttribute('href'));
+          console.log("this.currentAudio");
+          console.log(_this3.currentAudio);
+          console.log("this.currentAudio.getAttribute('href')");
+          console.log(_this3.currentAudio.getAttribute('href'));
+
           _this3.setPauseIcon(_this3.currentAudio);
 
+          _this3.currentAudio.load;
+
           _this3.audioElem.play();
+
+          console.log(_this3.audioElem.play());
         } else {
           if (_this3.currentAudio) {
             _this3.setPlayIcon(_this3.currentAudio);
           }
 
+          console.log("test 3");
+          console.log(isCurrentAudio);
+          console.log("audioItem.getAttribute('href')");
+          console.log(audioItem.getAttribute('href'));
+          console.log("this.currentAudio");
+          console.log(_this3.currentAudio);
+          console.log("this.currentAudio.getAttribute('href')");
+          console.log(_this3.currentAudio.getAttribute('href'));
           _this3.currentAudio = audioItem;
           _this3.nowPlaying = "".concat(audioItem.getAttribute("name"), " - ").concat(audioItem.getAttribute("artist"));
           var nowPlayin = document.querySelector(".now-playin");
