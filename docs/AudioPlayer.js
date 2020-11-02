@@ -11,6 +11,7 @@ export default class AudioPlayer {
         this.green = document.getElementById("green").value;
         this.createPlayerElements();
         this.colorSlider();
+        // this.spacePlay();
     }
 
     // to do 
@@ -19,10 +20,16 @@ export default class AudioPlayer {
             //  [  ]               
         // upload feature
             //  [  ]  
-        // change visual
-            //  [  ]  
-        // CRUD feature => local storage  
-            //  [  ]  
+ 
+    // spacePlay() {
+
+    //     const isCurrentAudio = audioItem.getAttribute('href') === (this.currentAudio && this.currentAudio.getAttribute('href'))
+    //     window.addEventListener('keydown', e => {
+    //         if(e.keyCode == 32) {
+    //             this.audioElem.play()
+    //        }
+    //       })
+    // }
 
     createVisualizer() {
         this.audioContext = new AudioContext();
@@ -50,7 +57,6 @@ export default class AudioPlayer {
             for (let i = 0; i < bufferLength; i++) {
                 const barHeight = dataArray[i] - 130;
                 const r = barHeight + (1/10 * (i / bufferLength))
-                console.log(r)
                 // ctx.fillStyle = `rgb(${r}, 105, 65`; //
                 let red = document.getElementById("red").value
                 let blue = document.getElementById("blue").value

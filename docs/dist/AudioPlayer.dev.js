@@ -29,16 +29,20 @@ function () {
     this.blue = document.getElementById("blue").value;
     this.green = document.getElementById("green").value;
     this.createPlayerElements();
-    this.colorSlider();
+    this.colorSlider(); // this.spacePlay();
   } // to do 
   // space -> play / pause
   //  [  ]               
   // upload feature
   //  [  ]  
-  // change visual
-  //  [  ]  
-  // CRUD feature => local storage  
-  //  [  ]  
+  // spacePlay() {
+  //     const isCurrentAudio = audioItem.getAttribute('href') === (this.currentAudio && this.currentAudio.getAttribute('href'))
+  //     window.addEventListener('keydown', e => {
+  //         if(e.keyCode == 32) {
+  //             this.audioElem.play()
+  //        }
+  //       })
+  // }
 
 
   _createClass(AudioPlayer, [{
@@ -65,8 +69,7 @@ function () {
 
         for (var i = 0; i < bufferLength; i++) {
           var barHeight = dataArray[i] - 130;
-          var r = barHeight + 1 / 10 * (i / bufferLength);
-          console.log(r); // ctx.fillStyle = `rgb(${r}, 105, 65`; //
+          var r = barHeight + 1 / 10 * (i / bufferLength); // ctx.fillStyle = `rgb(${r}, 105, 65`; //
 
           var red = document.getElementById("red").value;
           var blue = document.getElementById("blue").value;
