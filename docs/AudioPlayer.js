@@ -11,6 +11,7 @@ export default class AudioPlayer {
         this.green = document.getElementById("green").value;
         this.createPlayerElements();
         this.colorSlider();
+        this.autoPlay()
         // this.spacePlay();
     }
 
@@ -20,6 +21,8 @@ export default class AudioPlayer {
             //  [  ]               
         // upload feature
             //  [  ]  
+        // create autoplay button?
+    // create play/pause button?
  
     // spacePlay() {
 
@@ -30,6 +33,16 @@ export default class AudioPlayer {
     //        }
     //       })
     // }
+
+
+    // autoplay button 
+    // get if currentTime === duration
+    // setTimeout, after 2 seconds play next song
+
+    autoPlay() {
+        const { currentTime, duration } = this.audioElem;
+        this.audioElem.addEventListener("ended", () => window.setTimeout(() => this.playNext(), 1000))
+    }
 
     createVisualizer() {
         this.audioContext = new AudioContext();
@@ -210,18 +223,18 @@ export default class AudioPlayer {
             const isCurrentAudio = audioItem.getAttribute('href') === (this.currentAudio && this.currentAudio.getAttribute('href'))
         
             if (isCurrentAudio && !this.audioElem.paused) {
-                console.log("test 1")
+                // console.log("test 1")
                 this.setPlayIcon(this.currentAudio);
                 this.audioElem.pause();
             } else if (isCurrentAudio && this.audioElem.paused) {
-                console.log("test 2")
-                console.log(isCurrentAudio)
-                console.log("audioItem.getAttribute('href')")
-                console.log(audioItem.getAttribute('href'))
-                console.log("this.currentAudio")
-                console.log(this.currentAudio)
-                console.log("this.currentAudio.getAttribute('href')")
-                console.log(this.currentAudio.getAttribute('href'))
+                // console.log("test 2")
+                // console.log(isCurrentAudio)
+                // console.log("audioItem.getAttribute('href')")
+                // console.log(audioItem.getAttribute('href'))
+                // console.log("this.currentAudio")
+                // console.log(this.currentAudio)
+                // console.log("this.currentAudio.getAttribute('href')")
+                // console.log(this.currentAudio.getAttribute('href'))
 
                 this.setPauseIcon(this.currentAudio)
                 this.currentAudio.load
@@ -231,14 +244,14 @@ export default class AudioPlayer {
                 if (this.currentAudio) {
                     this.setPlayIcon(this.currentAudio);
                 }
-                console.log("test 3")
-                console.log(isCurrentAudio)
-                console.log("audioItem.getAttribute('href')")
-                console.log(audioItem.getAttribute('href'))
-                console.log("this.currentAudio")
-                console.log(this.currentAudio)
-                console.log("this.currentAudio.getAttribute('href')")
-                console.log(this.currentAudio.getAttribute('href'))
+                // console.log("test 3")
+                // console.log(isCurrentAudio)
+                // console.log("audioItem.getAttribute('href')")
+                // console.log(audioItem.getAttribute('href'))
+                // console.log("this.currentAudio")
+                // console.log(this.currentAudio)
+                // console.log("this.currentAudio.getAttribute('href')")
+                // console.log(this.currentAudio.getAttribute('href'))
 
                 this.currentAudio = audioItem;
                 this.nowPlaying = `${audioItem.getAttribute("name")} - ${audioItem.getAttribute("artist")}`
