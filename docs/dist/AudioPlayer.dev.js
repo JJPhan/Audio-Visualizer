@@ -29,12 +29,15 @@ function () {
     this.blue = document.getElementById("blue").value;
     this.green = document.getElementById("green").value;
     this.createPlayerElements();
-    this.colorSlider(); // this.spacePlay();
+    this.colorSlider();
+    this.autoPlay(); // this.spacePlay();
   } // to do 
   // space -> play / pause
   //  [  ]               
   // upload feature
   //  [  ]  
+  // create autoplay button?
+  // create play/pause button?
   // spacePlay() {
   //     const isCurrentAudio = audioItem.getAttribute('href') === (this.currentAudio && this.currentAudio.getAttribute('href'))
   //     window.addEventListener('keydown', e => {
@@ -43,9 +46,26 @@ function () {
   //        }
   //       })
   // }
+  // autoplay button 
+  // get if currentTime === duration
+  // setTimeout, after 2 seconds play next song
 
 
   _createClass(AudioPlayer, [{
+    key: "autoPlay",
+    value: function autoPlay() {
+      var _this = this;
+
+      var _this$audioElem = this.audioElem,
+          currentTime = _this$audioElem.currentTime,
+          duration = _this$audioElem.duration;
+      this.audioElem.addEventListener("ended", function () {
+        return window.setTimeout(function () {
+          return _this.playNext();
+        }, 1000);
+      });
+    }
+  }, {
     key: "createVisualizer",
     value: function createVisualizer() {
       this.audioContext = new AudioContext();
@@ -117,7 +137,7 @@ function () {
   }, {
     key: "createProgressBarElements",
     value: function createProgressBarElements(progressBarElem) {
-      var _this = this;
+      var _this2 = this;
 
       var container = document.createElement('div');
       container.classList.add('button-container');
@@ -133,9 +153,9 @@ function () {
       this.progressBar = document.createElement('canvas');
       this.progressBar.classList.add("progress-bar-canvas");
       this.progressBar.addEventListener('click', function (e) {
-        var progressBarWidth = parseInt(window.getComputedStyle(_this.progressBar).width);
-        var amountComplete = (e.clientX - _this.progressBar.getBoundingClientRect().left) / progressBarWidth;
-        _this.audioElem.currentTime = (_this.audioElem.duration || 0) * amountComplete;
+        var progressBarWidth = parseInt(window.getComputedStyle(_this2.progressBar).width);
+        var amountComplete = (e.clientX - _this2.progressBar.getBoundingClientRect().left) / progressBarWidth;
+        _this2.audioElem.currentTime = (_this2.audioElem.duration || 0) * amountComplete;
       });
       this.timer = document.createElement("div");
       this.timer.classList.add('timer');
@@ -153,7 +173,7 @@ function () {
   }, {
     key: "createPlaylistElements",
     value: function createPlaylistElements(playListElem) {
-      var _this2 = this;
+      var _this3 = this;
 
       this.audioElements = this.audio.map(function (audio) {
         var audioItem = document.createElement('a');
@@ -170,7 +190,7 @@ function () {
         audioItem.innerHTML = "<i class= \"fa fa-play\"></i> ".concat(audio.name);
         audioArtist.innerHTML = "".concat(audio.artist);
 
-        _this2.setupEventListener(audioDiv, audioItem);
+        _this3.setupEventListener(audioDiv, audioItem);
 
         playListElem.appendChild(audioDiv);
         return audioItem;
@@ -183,63 +203,61 @@ function () {
   }, {
     key: "setupEventListener",
     value: function setupEventListener(audioDiv, audioItem) {
-      var _this3 = this;
+      var _this4 = this;
 
       audioDiv.addEventListener('click', function (e) {
         e.preventDefault();
 
-        if (!_this3.audioContext) {
-          _this3.createVisualizer();
+        if (!_this4.audioContext) {
+          _this4.createVisualizer();
         }
 
-        var isCurrentAudio = audioItem.getAttribute('href') === (_this3.currentAudio && _this3.currentAudio.getAttribute('href'));
+        var isCurrentAudio = audioItem.getAttribute('href') === (_this4.currentAudio && _this4.currentAudio.getAttribute('href'));
 
-        if (isCurrentAudio && !_this3.audioElem.paused) {
-          console.log("test 1");
+        if (isCurrentAudio && !_this4.audioElem.paused) {
+          // console.log("test 1")
+          _this4.setPlayIcon(_this4.currentAudio);
 
-          _this3.setPlayIcon(_this3.currentAudio);
+          _this4.audioElem.pause();
+        } else if (isCurrentAudio && _this4.audioElem.paused) {
+          // console.log("test 2")
+          // console.log(isCurrentAudio)
+          // console.log("audioItem.getAttribute('href')")
+          // console.log(audioItem.getAttribute('href'))
+          // console.log("this.currentAudio")
+          // console.log(this.currentAudio)
+          // console.log("this.currentAudio.getAttribute('href')")
+          // console.log(this.currentAudio.getAttribute('href'))
+          _this4.setPauseIcon(_this4.currentAudio);
 
-          _this3.audioElem.pause();
-        } else if (isCurrentAudio && _this3.audioElem.paused) {
-          console.log("test 2");
-          console.log(isCurrentAudio);
-          console.log("audioItem.getAttribute('href')");
-          console.log(audioItem.getAttribute('href'));
-          console.log("this.currentAudio");
-          console.log(_this3.currentAudio);
-          console.log("this.currentAudio.getAttribute('href')");
-          console.log(_this3.currentAudio.getAttribute('href'));
+          _this4.currentAudio.load;
 
-          _this3.setPauseIcon(_this3.currentAudio);
+          _this4.audioElem.play();
 
-          _this3.currentAudio.load;
-
-          _this3.audioElem.play();
-
-          console.log(_this3.audioElem.play());
+          console.log(_this4.audioElem.play());
         } else {
-          if (_this3.currentAudio) {
-            _this3.setPlayIcon(_this3.currentAudio);
-          }
+          if (_this4.currentAudio) {
+            _this4.setPlayIcon(_this4.currentAudio);
+          } // console.log("test 3")
+          // console.log(isCurrentAudio)
+          // console.log("audioItem.getAttribute('href')")
+          // console.log(audioItem.getAttribute('href'))
+          // console.log("this.currentAudio")
+          // console.log(this.currentAudio)
+          // console.log("this.currentAudio.getAttribute('href')")
+          // console.log(this.currentAudio.getAttribute('href'))
 
-          console.log("test 3");
-          console.log(isCurrentAudio);
-          console.log("audioItem.getAttribute('href')");
-          console.log(audioItem.getAttribute('href'));
-          console.log("this.currentAudio");
-          console.log(_this3.currentAudio);
-          console.log("this.currentAudio.getAttribute('href')");
-          console.log(_this3.currentAudio.getAttribute('href'));
-          _this3.currentAudio = audioItem;
-          _this3.nowPlaying = "".concat(audioItem.getAttribute("name"), " - ").concat(audioItem.getAttribute("artist"));
+
+          _this4.currentAudio = audioItem;
+          _this4.nowPlaying = "".concat(audioItem.getAttribute("name"), " - ").concat(audioItem.getAttribute("artist"));
           var nowPlayin = document.querySelector(".now-playin");
-          nowPlayin.innerHTML = "Now Playing: ".concat(_this3.nowPlaying);
+          nowPlayin.innerHTML = "Now Playing: ".concat(_this4.nowPlaying);
 
-          _this3.setPauseIcon(_this3.currentAudio);
+          _this4.setPauseIcon(_this4.currentAudio);
 
-          _this3.audioElem.src = _this3.currentAudio.getAttribute('href');
+          _this4.audioElem.src = _this4.currentAudio.getAttribute('href');
 
-          _this3.audioElem.play();
+          _this4.audioElem.play();
         }
       });
     }
@@ -294,9 +312,9 @@ function () {
         return "".concat(minutes, ":").concat(seconds);
       };
 
-      var _this$audioElem = this.audioElem,
-          currentTime = _this$audioElem.currentTime,
-          duration = _this$audioElem.duration;
+      var _this$audioElem2 = this.audioElem,
+          currentTime = _this$audioElem2.currentTime,
+          duration = _this$audioElem2.duration;
       this.timer.innerHTML = "".concat(parseTime(currentTime), "/").concat(parseTime(duration));
       this.updateProgressBar();
       this.updateProgressBar();
@@ -308,9 +326,9 @@ function () {
         return current / overall * width;
       };
 
-      var _this$audioElem2 = this.audioElem,
-          currentTime = _this$audioElem2.currentTime,
-          duration = _this$audioElem2.duration;
+      var _this$audioElem3 = this.audioElem,
+          currentTime = _this$audioElem3.currentTime,
+          duration = _this$audioElem3.duration;
       var progressCtx = this.progressBar.getContext('2d');
       progressCtx.fillStyle = "#000";
       progressCtx.fillRect(0, 0, this.progressBar.width, this.progressBar.height);
@@ -333,10 +351,10 @@ function () {
   }, {
     key: "playNext",
     value: function playNext() {
-      var _this4 = this;
+      var _this5 = this;
 
       var index = this.audioElements.findIndex(function (audioItem) {
-        return audioItem.getAttribute('href') === _this4.currentAudio.getAttribute('href');
+        return audioItem.getAttribute('href') === _this5.currentAudio.getAttribute('href');
       });
       var nextAudio = index >= this.audioElements.length - 1 ? this.audioElements[0] : this.audioElements[index + 1];
       this.updateCurrentAudio(nextAudio);
@@ -347,10 +365,10 @@ function () {
   }, {
     key: "playPrevious",
     value: function playPrevious() {
-      var _this5 = this;
+      var _this6 = this;
 
       var index = this.audioElements.findIndex(function (audioItem) {
-        return audioItem.getAttribute('href') === _this5.currentAudio.getAttribute('href');
+        return audioItem.getAttribute('href') === _this6.currentAudio.getAttribute('href');
       });
       var nextAudio = index <= 0 ? this.audioElements[this.audioElements.length - 1] : this.audioElements[index - 1];
       this.updateCurrentAudio(nextAudio);
