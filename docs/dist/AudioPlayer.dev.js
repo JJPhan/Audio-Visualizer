@@ -33,6 +33,7 @@ function () {
     this.autoPlay();
     this.upload();
     this.closeModal();
+    this.openModal();
   } // to do 
   // space -> play / pause
   //  [  ]               
@@ -61,11 +62,10 @@ function () {
   }, {
     key: "openModal",
     value: function openModal() {
-      var modal = document.getElementsByClassName("modal")[0];
       var questionButton = document.getElementsByClassName("fa-question-circle")[0];
       questionButton.addEventListener("click", function () {
+        var modal = document.getElementsByClassName("modal closed")[0];
         modal.classList.remove("closed");
-        console.log("test");
       });
     }
   }, {

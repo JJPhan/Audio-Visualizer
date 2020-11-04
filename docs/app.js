@@ -11,6 +11,7 @@ const audioPlayer = new AudioPlayer(`.audioPlayer`, [
     { url: 'songs/U_Remind_me.mp3', name: "U Remind Me", artist: "Usher"},
     { url: 'songs/about_my_issue.mp3', name: "About My Issue", artist: "T.I, Victoria Monet"},
     { url: 'songs/trolol.mp3', name: "Never Gonna Give You Up", artist: " Rick Astley"},
+    { url: 'songs/heyarnold.mp3', name: "Hey Arnold! - Ending Theme", artist: " Jim Lang"},
     { url: 'songs/pkmn_center.mp3', name: "Pokemon Center", artist: "Red / Blue / Yellow Version"},
     { url: 'songs/lost_woods.mp3', name: "Lost Woods", artist: "Orcarina of Time"}
 ]);
