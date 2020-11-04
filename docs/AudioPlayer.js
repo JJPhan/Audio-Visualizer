@@ -11,16 +11,15 @@ export default class AudioPlayer {
         this.green = document.getElementById("green").value;
         this.createPlayerElements();
         this.colorSlider();
-        this.autoPlay()
-        // this.spacePlay();
+        this.autoPlay();
+        this.upload();
+        console.log(this.audioElements)
     }
 
     // to do 
   
         // space -> play / pause
             //  [  ]               
-        // upload feature
-            //  [  ]  
         // create autoplay button?
     // create play/pause button?
  
@@ -34,10 +33,49 @@ export default class AudioPlayer {
     //       })
     // }
 
+    //create upload function
 
-    // autoplay button 
-    // get if currentTime === duration
-    // setTimeout, after 2 seconds play next song
+    upload()  {
+        let uploadFile = document.getElementById("uploadbutton") 
+        // uploadFile.addEventListener("change", () => console.log("test"))
+        uploadFile.addEventListener("change", (e) => {
+            // console.log(e)
+            // console.log(e.target)
+            // console.log(e.target.files)
+            // console.log(e.target.files[0])
+            let uploadURL = URL.createObjectURL(e.target.files[0])
+            this.audio.push({url: `${uploadURL}`, name: `${e.target.files[0].name}`, artist: "N/A"})
+
+            // this.audioElements.push({url: `${uploadURL}`, name: `${e.target.files[0].name}`, artist: "N/A"})
+           
+            const audioItem = document.createElement('a');
+            const audioArtist = document.createElement('a')
+            const audioDiv = document.createElement('div')
+            let playListElem = document.getElementsByClassName("playlist")
+            
+
+            audioDiv.classList.add("track-information")
+            audioItem.setAttribute("id", `uploaded-song ${e.target.files[0].name}`)
+
+            audioDiv.appendChild(audioItem)
+            audioDiv.appendChild(audioArtist)
+
+            audioItem.setAttribute("name", `${e.target.files[0].name}`)
+            audioItem.setAttribute("artist", `N/A`)
+
+            audioItem.href = uploadURL;
+            audioItem.innerHTML = `<i class= "fa fa-play"></i> ${e.target.files[0].name}`;
+            audioArtist.innerHTML = `Uploaded `;
+            this.setupEventListener(audioDiv, audioItem);
+            playListElem[0].appendChild(audioDiv);
+            console.log(this.audioElements)
+
+            this.audioElements.push(document.getElementById(`uploaded-song ${e.target.files[0].name}`))
+            console.log(e.target.files)
+
+        })
+    }
+
 
     autoPlay() {
         const { currentTime, duration } = this.audioElem;
@@ -68,7 +106,7 @@ export default class AudioPlayer {
             ctx.fillRect(0, 0, canvas.width, canvas.height);
         
             for (let i = 0; i < bufferLength; i++) {
-                const barHeight = dataArray[i] - 130;
+                const barHeight = dataArray[i] - 110;
                 const r = barHeight + (1/10 * (i / bufferLength))
                 // ctx.fillStyle = `rgb(${r}, 105, 65`; //
                 let red = document.getElementById("red").value
@@ -180,6 +218,7 @@ export default class AudioPlayer {
     createPlaylistElements(playListElem) {
 
         this.audioElements = this.audio.map(audio => {
+            // console.log(audio)
             const audioItem = document.createElement('a');
             const audioArtist = document.createElement('a')
             const audioDiv = document.createElement('div')
@@ -353,9 +392,13 @@ export default class AudioPlayer {
 
         const nextAudio = index >= this.audioElements.length - 1 ? this.audioElements[0] : this.audioElements[index + 1];
         this.updateCurrentAudio(nextAudio)
+
         this.nowPlaying = `${nextAudio.getAttribute("name")} - ${nextAudio.getAttribute("artist")}`
         let nowPlayin = document.querySelector(".now-playin")
         nowPlayin.innerHTML = `Now Playing: ${this.nowPlaying}`
+        
+        console.log(index)
+        console.log(this.currentAudio)
     }
 
     playPrevious() {
@@ -365,10 +408,18 @@ export default class AudioPlayer {
 
         const nextAudio = index <= 0 ? this.audioElements[this.audioElements.length - 1] : this.audioElements[index - 1]
         this.updateCurrentAudio(nextAudio)
+
         this.nowPlaying = `${nextAudio.getAttribute("name")} - ${nextAudio.getAttribute("artist")}`
         let nowPlayin = document.querySelector(".now-playin")
         nowPlayin.innerHTML = `Now Playing: ${this.nowPlaying}`
     }
 
 }
+
+
+
+{/* <div display block>
+    <div>  modal </div>
+
+</div> */}
 
