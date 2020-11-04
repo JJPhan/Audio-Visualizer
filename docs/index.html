@@ -12,26 +12,41 @@
     integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xbgc" crossorigin="anonymous">
 </head>
 <body>
-    <div class="color-container">
-        <div id="display"> </div>
-        <div class="test">
-            <div class="input-contain" >  
-                Red <input type="range" min="0" max="255" step="1" id="red"  value="26">
-            </div>
-            <div class="input-contain" >  
-                Blue <input type="range" min="0" max="255" step="1" id="blue" value="32">
-            </div>
-            <div class="input-contain" >
-                Green <input type="range" min="0" max="255" step="1" id="green" value="45">
-            </div>
+    <div class="modal">
+        <div class="window">
+            <p>Jordan's Audio Visualizer</p>
+            <button class="close-button"> CLOSE </button>
         </div>
     </div>
-    <div class="audioPlayer"></div>
-    <script type="module" src="./app.js"></script>
-    <div class="picker"></div>
+    <div class="main-body">
+        <div class="color-container">
+            <div id="display"> </div>
+            <div class="test">
+                <div class="input-contain" >  
+                    Red <input type="range" min="0" max="255" step="1" id="red"  value="26">
+                </div>
+                <div class="input-contain" >  
+                    Blue <input type="range" min="0" max="255" step="1" id="blue" value="32">
+                </div>
+                <div class="input-contain" >
+                    Green <input type="range" min="0" max="255" step="1" id="green" value="45">
+                </div>
+            </div>
+        </div>
+        <div class="audioPlayer"></div>
+        <script type="module" src="./app.js"></script>
+        <div class="picker"></div>
+    </div>
     <footer> 
+        <a id="links"> 
+            <i class="fas fa-question-circle"></i>
+        </a>
+        <a id="links">
+            <i class="fas fa-upload" id="ub1" onclick="document.getElementById(`uploadbutton`).click();"></i>
+            <input style="display:none;" type="file" id="uploadbutton" accept=".mp3">
+        </a>
         <a id="links" href="https://www.linkedin.com/in/jordanjphan/" target="_blank">
-            <i id="link-color1"class="fab fa-linkedin"></i>                      
+            <i id="link-color1" class="fab fa-linkedin"></i>                      
         </a>
         <a id="links" href="https://github.com/JJPhan" target="_blank">
             <i id="link-color2" class="fab fa-github" ></i>

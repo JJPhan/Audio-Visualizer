@@ -30,12 +30,12 @@ function () {
     this.green = document.getElementById("green").value;
     this.createPlayerElements();
     this.colorSlider();
-    this.autoPlay(); // this.spacePlay();
+    this.autoPlay();
+    this.upload();
+    this.closeModal();
   } // to do 
   // space -> play / pause
   //  [  ]               
-  // upload feature
-  //  [  ]  
   // create autoplay button?
   // create play/pause button?
   // spacePlay() {
@@ -46,22 +46,89 @@ function () {
   //        }
   //       })
   // }
-  // autoplay button 
-  // get if currentTime === duration
-  // setTimeout, after 2 seconds play next song
+  //create upload function
 
 
   _createClass(AudioPlayer, [{
+    key: "closeModal",
+    value: function closeModal() {
+      var modal = document.getElementsByClassName("modal")[0];
+      var closeButton = document.getElementsByClassName("close-button")[0];
+      closeButton.addEventListener("click", function () {
+        modal.classList.add("closed");
+      });
+    }
+  }, {
+    key: "openModal",
+    value: function openModal() {
+      var modal = document.getElementsByClassName("modal")[0];
+      var questionButton = document.getElementsByClassName("fa-question-circle")[0];
+      questionButton.addEventListener("click", function () {
+        modal.classList.remove("closed");
+        console.log("test");
+      });
+    }
+  }, {
+    key: "upload",
+    value: function upload() {
+      var _this = this;
+
+      var uploadFile = document.getElementById("uploadbutton"); // uploadFile.addEventListener("change", () => console.log("test"))
+
+      uploadFile.addEventListener("change", function (e) {
+        // console.log(e)
+        // console.log(e.target)
+        // console.log(e.target.files)
+        // console.log(e.target.files[0])
+        var uploadURL = URL.createObjectURL(e.target.files[0]);
+
+        _this.audio.push({
+          url: "".concat(uploadURL),
+          name: "".concat(e.target.files[0].name),
+          artist: "N/A"
+        }); // this.audioElements.push({url: `${uploadURL}`, name: `${e.target.files[0].name}`, artist: "N/A"})
+
+
+        var audioItem = document.createElement('a');
+        var audioArtist = document.createElement('a');
+        var audioDiv = document.createElement('div');
+        var playListElem = document.getElementsByClassName("playlist");
+        audioDiv.classList.add("track-information");
+        audioItem.setAttribute("id", "uploaded-song ".concat(e.target.files[0].name));
+        audioDiv.appendChild(audioItem);
+        audioDiv.appendChild(audioArtist);
+        audioItem.setAttribute("name", "".concat(e.target.files[0].name));
+        audioItem.setAttribute("artist", "N/A");
+        audioItem.href = uploadURL;
+        audioItem.innerHTML = "<i class= \"fa fa-play\"></i> ".concat(e.target.files[0].name);
+        audioArtist.innerHTML = "Uploaded ";
+
+        _this.setupEventListener(audioDiv, audioItem);
+
+        playListElem[0].appendChild(audioDiv);
+        console.log(_this.audioElements);
+
+        _this.audioElements.push(document.getElementById("uploaded-song ".concat(e.target.files[0].name)));
+
+        console.log(e.target.files);
+        document.getElementsByClassName('playlist')[0].scrollIntoView({
+          behavior: 'smooth',
+          block: 'end'
+        });
+        document.getElementsByClassName('playlist')[0].scrollIntoView(true);
+      });
+    }
+  }, {
     key: "autoPlay",
     value: function autoPlay() {
-      var _this = this;
+      var _this2 = this;
 
       var _this$audioElem = this.audioElem,
           currentTime = _this$audioElem.currentTime,
           duration = _this$audioElem.duration;
       this.audioElem.addEventListener("ended", function () {
         return window.setTimeout(function () {
-          return _this.playNext();
+          return _this2.playNext();
         }, 1000);
       });
     }
@@ -88,7 +155,7 @@ function () {
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
         for (var i = 0; i < bufferLength; i++) {
-          var barHeight = dataArray[i] - 130;
+          var barHeight = dataArray[i] - 110;
           var r = barHeight + 1 / 10 * (i / bufferLength); // ctx.fillStyle = `rgb(${r}, 105, 65`; //
 
           var red = document.getElementById("red").value;
@@ -137,7 +204,7 @@ function () {
   }, {
     key: "createProgressBarElements",
     value: function createProgressBarElements(progressBarElem) {
-      var _this2 = this;
+      var _this3 = this;
 
       var container = document.createElement('div');
       container.classList.add('button-container');
@@ -153,9 +220,9 @@ function () {
       this.progressBar = document.createElement('canvas');
       this.progressBar.classList.add("progress-bar-canvas");
       this.progressBar.addEventListener('click', function (e) {
-        var progressBarWidth = parseInt(window.getComputedStyle(_this2.progressBar).width);
-        var amountComplete = (e.clientX - _this2.progressBar.getBoundingClientRect().left) / progressBarWidth;
-        _this2.audioElem.currentTime = (_this2.audioElem.duration || 0) * amountComplete;
+        var progressBarWidth = parseInt(window.getComputedStyle(_this3.progressBar).width);
+        var amountComplete = (e.clientX - _this3.progressBar.getBoundingClientRect().left) / progressBarWidth;
+        _this3.audioElem.currentTime = (_this3.audioElem.duration || 0) * amountComplete;
       });
       this.timer = document.createElement("div");
       this.timer.classList.add('timer');
@@ -173,9 +240,10 @@ function () {
   }, {
     key: "createPlaylistElements",
     value: function createPlaylistElements(playListElem) {
-      var _this3 = this;
+      var _this4 = this;
 
       this.audioElements = this.audio.map(function (audio) {
+        // console.log(audio)
         var audioItem = document.createElement('a');
         var audioArtist = document.createElement('a');
         var audioDiv = document.createElement('div');
@@ -190,7 +258,7 @@ function () {
         audioItem.innerHTML = "<i class= \"fa fa-play\"></i> ".concat(audio.name);
         audioArtist.innerHTML = "".concat(audio.artist);
 
-        _this3.setupEventListener(audioDiv, audioItem);
+        _this4.setupEventListener(audioDiv, audioItem);
 
         playListElem.appendChild(audioDiv);
         return audioItem;
@@ -203,23 +271,23 @@ function () {
   }, {
     key: "setupEventListener",
     value: function setupEventListener(audioDiv, audioItem) {
-      var _this4 = this;
+      var _this5 = this;
 
       audioDiv.addEventListener('click', function (e) {
         e.preventDefault();
 
-        if (!_this4.audioContext) {
-          _this4.createVisualizer();
+        if (!_this5.audioContext) {
+          _this5.createVisualizer();
         }
 
-        var isCurrentAudio = audioItem.getAttribute('href') === (_this4.currentAudio && _this4.currentAudio.getAttribute('href'));
+        var isCurrentAudio = audioItem.getAttribute('href') === (_this5.currentAudio && _this5.currentAudio.getAttribute('href'));
 
-        if (isCurrentAudio && !_this4.audioElem.paused) {
+        if (isCurrentAudio && !_this5.audioElem.paused) {
           // console.log("test 1")
-          _this4.setPlayIcon(_this4.currentAudio);
+          _this5.setPlayIcon(_this5.currentAudio);
 
-          _this4.audioElem.pause();
-        } else if (isCurrentAudio && _this4.audioElem.paused) {
+          _this5.audioElem.pause();
+        } else if (isCurrentAudio && _this5.audioElem.paused) {
           // console.log("test 2")
           // console.log(isCurrentAudio)
           // console.log("audioItem.getAttribute('href')")
@@ -228,16 +296,16 @@ function () {
           // console.log(this.currentAudio)
           // console.log("this.currentAudio.getAttribute('href')")
           // console.log(this.currentAudio.getAttribute('href'))
-          _this4.setPauseIcon(_this4.currentAudio);
+          _this5.setPauseIcon(_this5.currentAudio);
 
-          _this4.currentAudio.load;
+          _this5.currentAudio.load;
 
-          _this4.audioElem.play();
+          _this5.audioElem.play();
 
-          console.log(_this4.audioElem.play());
+          console.log(_this5.audioElem.play());
         } else {
-          if (_this4.currentAudio) {
-            _this4.setPlayIcon(_this4.currentAudio);
+          if (_this5.currentAudio) {
+            _this5.setPlayIcon(_this5.currentAudio);
           } // console.log("test 3")
           // console.log(isCurrentAudio)
           // console.log("audioItem.getAttribute('href')")
@@ -248,16 +316,16 @@ function () {
           // console.log(this.currentAudio.getAttribute('href'))
 
 
-          _this4.currentAudio = audioItem;
-          _this4.nowPlaying = "".concat(audioItem.getAttribute("name"), " - ").concat(audioItem.getAttribute("artist"));
+          _this5.currentAudio = audioItem;
+          _this5.nowPlaying = "".concat(audioItem.getAttribute("name"), " - ").concat(audioItem.getAttribute("artist"));
           var nowPlayin = document.querySelector(".now-playin");
-          nowPlayin.innerHTML = "Now Playing: ".concat(_this4.nowPlaying);
+          nowPlayin.innerHTML = "Now Playing: ".concat(_this5.nowPlaying);
 
-          _this4.setPauseIcon(_this4.currentAudio);
+          _this5.setPauseIcon(_this5.currentAudio);
 
-          _this4.audioElem.src = _this4.currentAudio.getAttribute('href');
+          _this5.audioElem.src = _this5.currentAudio.getAttribute('href');
 
-          _this4.audioElem.play();
+          _this5.audioElem.play();
         }
       });
     }
@@ -294,12 +362,11 @@ function () {
           var red = document.getElementById("red").value;
           var blue = document.getElementById("blue").value;
           var green = document.getElementById("green").value;
-          var display = document.getElementById("display");
-          var link1 = document.getElementById("link-color1");
-          var link2 = document.getElementById("link-color2");
-          display.style.background = "rgb(".concat(red, " , ").concat(green, ", ").concat(blue, ")");
-          link1.style.color = "rgb(".concat(red, " , ").concat(green, ", ").concat(blue, ")");
-          link2.style.color = "rgb(".concat(red, " , ").concat(green, ", ").concat(blue, ")");
+          var display = document.getElementById("display"); // let link1 = document.getElementById("link-color1")
+          // let link2 = document.getElementById("link-color2")
+
+          display.style.background = "rgb(".concat(red, " , ").concat(green, ", ").concat(blue, ")"); // link1.style.color = `rgb(${red} , ${green}, ${blue})`;
+          // link2.style.color = `rgb(${red} , ${green}, ${blue})`;
         });
       }
     }
@@ -351,24 +418,26 @@ function () {
   }, {
     key: "playNext",
     value: function playNext() {
-      var _this5 = this;
+      var _this6 = this;
 
       var index = this.audioElements.findIndex(function (audioItem) {
-        return audioItem.getAttribute('href') === _this5.currentAudio.getAttribute('href');
+        return audioItem.getAttribute('href') === _this6.currentAudio.getAttribute('href');
       });
       var nextAudio = index >= this.audioElements.length - 1 ? this.audioElements[0] : this.audioElements[index + 1];
       this.updateCurrentAudio(nextAudio);
       this.nowPlaying = "".concat(nextAudio.getAttribute("name"), " - ").concat(nextAudio.getAttribute("artist"));
       var nowPlayin = document.querySelector(".now-playin");
       nowPlayin.innerHTML = "Now Playing: ".concat(this.nowPlaying);
+      console.log(index);
+      console.log(this.currentAudio);
     }
   }, {
     key: "playPrevious",
     value: function playPrevious() {
-      var _this6 = this;
+      var _this7 = this;
 
       var index = this.audioElements.findIndex(function (audioItem) {
-        return audioItem.getAttribute('href') === _this6.currentAudio.getAttribute('href');
+        return audioItem.getAttribute('href') === _this7.currentAudio.getAttribute('href');
       });
       var nextAudio = index <= 0 ? this.audioElements[this.audioElements.length - 1] : this.audioElements[index - 1];
       this.updateCurrentAudio(nextAudio);
@@ -382,3 +451,8 @@ function () {
 }();
 
 exports["default"] = AudioPlayer;
+{
+  /* <div display block>
+     <div>  modal </div>
+  </div> */
+}

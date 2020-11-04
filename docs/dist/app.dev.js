@@ -41,6 +41,10 @@ var audioPlayer = new _AudioPlayer["default"](".audioPlayer", [{
   name: "About My Issue",
   artist: "T.I, Victoria Monet"
 }, {
+  url: 'songs/trolol.mp3',
+  name: "Never Gonna Give You Up",
+  artist: " Rick Astley"
+}, {
   url: 'songs/pkmn_center.mp3',
   name: "Pokemon Center",
   artist: "Red / Blue / Yellow Version"
