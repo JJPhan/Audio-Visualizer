@@ -164,7 +164,6 @@ input[type="range"] {
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 51;
     background-color: transparent;
 }
 
@@ -201,10 +200,14 @@ footer {
     font-size: 30px;
 }
 
-.fa-uload {
+.fa-question-circle:hover {
+    cursor: help;
+}
+
+/* .fa-uload {
     display: flex;
     justify-content: center;
-}
+} */
 
 #ub1 {
     display: flex;
@@ -226,14 +229,16 @@ footer {
 
 .window {
     border: 3px solid black;
-    width: 25%;
+    width: 30%;
     margin: 50px auto;
-    background-color: darkred;
+    background-color: white;
     color: black;
     position: relative;
     display: flex;
     text-align: center;
-    height: 50%;
+    height: 70%;
+    margin-top: 5%;
+    flex-direction: column;
 }  
 
 .closed {
@@ -253,9 +258,22 @@ footer {
 }
 
 .close-button:hover {
-    color: darkgreen;
+    color: white;
+    background-color: black;
 }
 
 
+.header {
+    font-size: 25px;
+    padding-bottom: 10px;
+    border-bottom: 1px dotted black;
+}
 
+.app-deets {
+    padding: 0 7% 0 7%;
+    text-align: left;
+}
 
+.app-deets:hover {
+    transform: scale(1.1)
+}

@@ -14,6 +14,7 @@ export default class AudioPlayer {
         this.autoPlay();
         this.upload();
         this.closeModal();
+        this.openModal();
         
     }
 
@@ -45,11 +46,10 @@ export default class AudioPlayer {
     }
 
     openModal() {
-        let modal = document.getElementsByClassName("modal")[0]
         let questionButton = document.getElementsByClassName("fa-question-circle")[0]   
         questionButton.addEventListener("click", () => {
+            let modal = document.getElementsByClassName("modal closed")[0]
             modal.classList.remove("closed")
-            console.log("test")
         })
     }
 

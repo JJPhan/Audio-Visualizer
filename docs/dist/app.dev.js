@@ -45,6 +45,10 @@ var audioPlayer = new _AudioPlayer["default"](".audioPlayer", [{
   name: "Never Gonna Give You Up",
   artist: " Rick Astley"
 }, {
+  url: 'songs/heyarnold.mp3',
+  name: "Hey Arnold! - Ending Theme",
+  artist: " Jim Lang"
+}, {
   url: 'songs/pkmn_center.mp3',
   name: "Pokemon Center",
   artist: "Red / Blue / Yellow Version"
