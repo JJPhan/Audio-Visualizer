@@ -32,7 +32,7 @@ function () {
     this.colorSlider();
     this.autoPlay();
     this.upload();
-    console.log(this.audioElements);
+    this.closeModal();
   } // to do 
   // space -> play / pause
   //  [  ]               
@@ -50,6 +50,25 @@ function () {
 
 
   _createClass(AudioPlayer, [{
+    key: "closeModal",
+    value: function closeModal() {
+      var modal = document.getElementsByClassName("modal")[0];
+      var closeButton = document.getElementsByClassName("close-button")[0];
+      closeButton.addEventListener("click", function () {
+        modal.classList.add("closed");
+      });
+    }
+  }, {
+    key: "openModal",
+    value: function openModal() {
+      var modal = document.getElementsByClassName("modal")[0];
+      var questionButton = document.getElementsByClassName("fa-question-circle")[0];
+      questionButton.addEventListener("click", function () {
+        modal.classList.remove("closed");
+        console.log("test");
+      });
+    }
+  }, {
     key: "upload",
     value: function upload() {
       var _this = this;
@@ -92,6 +111,11 @@ function () {
         _this.audioElements.push(document.getElementById("uploaded-song ".concat(e.target.files[0].name)));
 
         console.log(e.target.files);
+        document.getElementsByClassName('playlist')[0].scrollIntoView({
+          behavior: 'smooth',
+          block: 'end'
+        });
+        document.getElementsByClassName('playlist')[0].scrollIntoView(true);
       });
     }
   }, {
@@ -338,12 +362,11 @@ function () {
           var red = document.getElementById("red").value;
           var blue = document.getElementById("blue").value;
           var green = document.getElementById("green").value;
-          var display = document.getElementById("display");
-          var link1 = document.getElementById("link-color1");
-          var link2 = document.getElementById("link-color2");
-          display.style.background = "rgb(".concat(red, " , ").concat(green, ", ").concat(blue, ")");
-          link1.style.color = "rgb(".concat(red, " , ").concat(green, ", ").concat(blue, ")");
-          link2.style.color = "rgb(".concat(red, " , ").concat(green, ", ").concat(blue, ")");
+          var display = document.getElementById("display"); // let link1 = document.getElementById("link-color1")
+          // let link2 = document.getElementById("link-color2")
+
+          display.style.background = "rgb(".concat(red, " , ").concat(green, ", ").concat(blue, ")"); // link1.style.color = `rgb(${red} , ${green}, ${blue})`;
+          // link2.style.color = `rgb(${red} , ${green}, ${blue})`;
         });
       }
     }

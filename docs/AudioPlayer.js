@@ -13,7 +13,8 @@ export default class AudioPlayer {
         this.colorSlider();
         this.autoPlay();
         this.upload();
-        console.log(this.audioElements)
+        this.closeModal();
+        
     }
 
     // to do 
@@ -34,6 +35,25 @@ export default class AudioPlayer {
     // }
 
     //create upload function
+    
+    closeModal() {
+        let modal = document.getElementsByClassName("modal")[0]
+        let closeButton = document.getElementsByClassName("close-button")[0]
+        closeButton.addEventListener("click", () => {
+            modal.classList.add("closed")
+        })
+    }
+
+    openModal() {
+        let modal = document.getElementsByClassName("modal")[0]
+        let questionButton = document.getElementsByClassName("fa-question-circle")[0]   
+        questionButton.addEventListener("click", () => {
+            modal.classList.remove("closed")
+            console.log("test")
+        })
+    }
+
+
 
     upload()  {
         let uploadFile = document.getElementById("uploadbutton") 
@@ -72,7 +92,8 @@ export default class AudioPlayer {
 
             this.audioElements.push(document.getElementById(`uploaded-song ${e.target.files[0].name}`))
             console.log(e.target.files)
-
+            document.getElementsByClassName('playlist')[0].scrollIntoView({ behavior: 'smooth', block: 'end' });
+            document.getElementsByClassName('playlist')[0].scrollIntoView(true);
         })
     }
 
@@ -335,12 +356,12 @@ export default class AudioPlayer {
                 let green = document.getElementById("green").value
 
                 let display = document.getElementById("display")
-                let link1 = document.getElementById("link-color1")
-                let link2 = document.getElementById("link-color2")
+                // let link1 = document.getElementById("link-color1")
+                // let link2 = document.getElementById("link-color2")
 
                 display.style.background = `rgb(${red} , ${green}, ${blue})`;
-                link1.style.color = `rgb(${red} , ${green}, ${blue})`;
-                link2.style.color = `rgb(${red} , ${green}, ${blue})`;
+                // link1.style.color = `rgb(${red} , ${green}, ${blue})`;
+                // link2.style.color = `rgb(${red} , ${green}, ${blue})`;
             });
         }
     }   
