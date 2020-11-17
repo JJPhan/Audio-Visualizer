@@ -299,7 +299,7 @@ export default class AudioPlayer {
                 this.setPauseIcon(this.currentAudio)
                 this.currentAudio.load
                 this.audioElem.play()
-                console.log(this.audioElem.play())
+                // console.log(this.audioElem.play())
             } else {
                 if (this.currentAudio) {
                     this.setPlayIcon(this.currentAudio);
@@ -418,8 +418,8 @@ export default class AudioPlayer {
         let nowPlayin = document.querySelector(".now-playin")
         nowPlayin.innerHTML = `Now Playing: ${this.nowPlaying}`
         
-        console.log(index)
-        console.log(this.currentAudio)
+        // console.log(index)
+        // console.log(this.currentAudio)
     }
 
     playPrevious() {
